@@ -42,7 +42,7 @@ Axyntia es una empresa española de software a medida e IA. Sus clientes potenci
 - Que contactar cueste un clic desde el primer bloque de la página (CE-002).
 - Que la persona llegue a «Contacto» y envíe el formulario o abra WhatsApp (CE-001).
 - Que la web sea accesible (WCAG 2.2 AA) y legible en móvil desde 360 px de ancho.
-- Que el contenido no inventa cifras, clientes ni testimonios.
+- Que el contenido no invente cifras, clientes ni testimonios.
 
 **No-objetivos**
 
@@ -135,6 +135,7 @@ Como visitante que usa el móvil o el teclado, quiero moverme por la página sin
   - [ ] Dado que empiezo a navegar con el teclado, cuando pulso la primera tecla de tabulación, entonces aparece el enlace «Saltar al contenido». (RF-031)
   - [ ] EL SISTEMA DEBE permitir usar todos los enlaces, botones y campos con el teclado y mostrar el foco de forma visible. (RF-032)
   - [ ] EL SISTEMA DEBE declarar el idioma del documento como español. (RF-045)
+  - [ ] EL SISTEMA DEBE dar texto alternativo a las imágenes informativas y `alt` vacío a las decorativas. (RF-046)
 
 ### HU-05 · Consultar las páginas legales · P2
 
@@ -215,6 +216,7 @@ Como persona que busca o recibe el enlace de Axyntia, quiero ver un título, una
 | RF-043 | EL SISTEMA DEBE publicar `robots.txt`                                                                                                                         | HU-06    | P2        |
 | RF-044 | EL SISTEMA DEBE ofrecer un favicon SVG                                                                                                                        | HU-06    | P2        |
 | RF-045 | EL SISTEMA DEBE declarar el idioma del documento como español                                                                                                 | HU-04    | P1        |
+| RF-046 | EL SISTEMA DEBE dar texto alternativo a las imágenes informativas y `alt` vacío a las decorativas                                                              | HU-04    | P1        |
 
 **No funcionales**
 
@@ -246,7 +248,7 @@ Como persona que busca o recibe el enlace de Axyntia, quiero ver un título, una
 
 | Entidad                         | Qué representa                                                                               | Atributos clave                                                                           | Relaciones                                                      | ¿Datos personales?      |
 | ------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------- |
-| Mensaje de contacto             | Lo que el visitante escribe en el formulario                                                 | nombre, email, empresa (opcional), servicio de interés, mensaje, aceptación de privacidad | Se envía a Formspree o al correo del visitante                  | sí                      |
+| Mensaje de contacto             | Lo que el visitante escribe en el formulario                                                 | nombre, email, empresa (opcional), servicio de interés, mensaje, aceptación de privacidad | Formspree, o correo preparado en el cliente del visitante       | sí                      |
 | Servicio                        | Cada una de las cuatro líneas de trabajo (más «Otro» en el formulario)                       | título, descripción, tres beneficios, icono                                               | Se elige como interés en el mensaje                             | no                      |
 | Datos de contacto de la empresa | Número de WhatsApp, mensaje predefinido, email, dirección del sitio y destino del formulario | valores de configuración                                                                  | Los usan los botones, el formulario y los datos para buscadores | no (hoy son marcadores) |
 

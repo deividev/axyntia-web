@@ -95,7 +95,7 @@ La CI usa la imagen `mcr.microsoft.com/playwright:v1.65.1-noble`, que coincide c
 | `public/` (propuesto)                          | Archivos servidos tal cual: `fonts/` (woff2), favicon SVG e imagen para compartir de 1200×630 px. No lleva código ni datos de configuración.                      | —                                                                                                      |
 | `docs/`                                        | PRD, ARCHITECTURE, DESIGN-SYSTEM, AI-AGENTS y `decisions/` (ADR).                                                                                                 | —                                                                                                      |
 
-En la raíz: `astro.config.ts`, `eslint.config.js`, `vitest.config.ts`, `playwright.config.ts`, `tsconfig.json`, `pnpm-workspace.yaml` y `.npmrc` son configuración protegida. `dist/` y `.tmp-build-*/` son salidas ignoradas por git.
+En la raíz: `astro.config.ts`, `vitest.config.ts`, `playwright.config.ts`, `pnpm-workspace.yaml` y `.npmrc` son configuración protegida (confirmado en sus comentarios; el resto de rutas protegidas es `[POR ACLARAR: resto de protected_paths en el factory.yaml de la factoría]`). `eslint.config.js` y `tsconfig.json` se cambian solo en un trabajo `test_config` aprobado por David (ADR-006). `dist/` y `.tmp-build-*/` son salidas ignoradas por git.
 
 ## 5. Flujo de datos
 
@@ -107,7 +107,7 @@ sequenceDiagram
   participant B as Navegador (módulo del formulario)
   participant F as Formspree
   participant M as Cliente de correo
-  V->>B: Pulsa «Enviar»
+  V->>B: Pulsa «Enviar mensaje»
   alt Validación KO (campo vacío, email inválido, mensaje fuera de 10-2000, casilla sin marcar)
     B-->>V: Mensajes junto a cada campo y resumen aria-live, sin envío
   else Honeypot relleno
@@ -136,7 +136,7 @@ sequenceDiagram
 | ID     | Invariante                                                                        | Por qué                            | Cómo se comprueba                                                                                  |
 | ------ | --------------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------- |
 | INV-01 | El documento declara `lang="es"`                                                  | RF-045, accesibilidad              | `tests/integration/build.test.ts` («genera index.html en español»)                                 |
-| INV-02 | Cada página tiene un único `h1`                                                   | RF-003                             | `tests/integration/build.test.ts` («tiene un único h1»)                                            |
+| INV-02 | La página de inicio y las legales tienen un único `h1`                            | RF-003                             | `tests/integration/build.test.ts` (solo index.html; las legales, en el trabajo de la landing)      |
 | INV-03 | Los colores de marca salen en el CSS generado                                     | Tokens aplicados de verdad         | `tests/integration/build.test.ts` («el CSS generado por Tailwind incluye…»)                        |
 | INV-04 | `src/config/site.ts` no contiene secretos ni datos reales; solo marcadores        | RNF-009                            | Búsqueda de `formspree.io/f/` seguido de un identificador real (debe dar 0) y revisión de Security |
 | INV-05 | 0 peticiones a terceros al cargar la página                                       | RNF-006                            | Prueba e2e que registra las peticiones: la añade el trabajo de la landing                          |
@@ -144,6 +144,7 @@ sequenceDiagram
 | INV-07 | El enlace de WhatsApp se codifica y falla si el número no tiene dígitos           | RF-023, RF-025                     | `tests/unit/whatsapp.test.ts`                                                                      |
 | INV-08 | No se usan GSAP ni three.js                                                       | ADR-004                            | Búsqueda de `gsap` y `three` en `package.json` (debe dar 0); revisión del Reviewer                 |
 | INV-09 | Las dependencias son versiones exactas                                            | `saveExact` y regla de la factoría | `pnpm install --frozen-lockfile` en la CI y revisión de `package.json`                             |
+| INV-10 | `formEndpoint` vacío o con prefijo `https://formspree.io/f/`                      | RNF-009                            | Prueba unitaria: la añade el trabajo de la landing                                                 |
 
 ## 7. Seguridad y datos
 
@@ -152,7 +153,8 @@ sequenceDiagram
 | Datos personales             | Nombre, email, empresa y mensaje del formulario se envían a Formspree (tercero) cuando `formEndpoint` está configurado. `[APROBACIÓN DAVID]`. La web no guarda nada. Sin retención propia.                                    |
 | Autenticación / autorización | No hay. Sitio público.                                                                                                                                                                                                        |
 | Validación de entradas       | En el navegador (obligatorios, formato de email, mensaje de 10 a 2000 caracteres, casilla de privacidad, honeypot) y, además, la de Formspree. No se confía en ninguna de las dos para seguridad: el sitio no tiene servidor. |
-| Secretos                     | Ninguno. `formEndpoint` es público por diseño. Si hiciera falta algo privado: variable `PUBLIC_…` documentada en el README y nunca comiteada.                                                                                 |
+| Secretos                     | Ninguno. `formEndpoint` es público por diseño. `PUBLIC_…` solo vale para valores públicos: un sitio estático no puede guardar secretos; si hiciera falta uno, exige backend y un ADR nuevo aprobado por David.                |
+| Cabeceras y HTML             | CSP con `connect-src` limitado a Formspree y cabeceras de seguridad: pendientes hasta elegir hosting `[POR ACLARAR: hosting]`. En el cliente no se inserta HTML con datos del usuario (`textContent`, no `innerHTML`).         |
 | Registro (logs)              | La web no registra nada: sin cookies ni analítica.                                                                                                                                                                            |
 | Terceros                     | Solo Formspree (al enviar) y WhatsApp (al abrir el enlace). Fuentes autoalojadas (ADR-005).                                                                                                                                   |
 

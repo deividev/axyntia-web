@@ -40,7 +40,7 @@ El número de WhatsApp, el email, el mensaje predefinido, la dirección del siti
 
 ## Decisión
 
-Opción elegida: «`src/config/site.ts` con un objeto `site`», porque ya existe, se importa desde `astro.config.ts` y desde cualquier módulo, y se puede probar y revisar con una búsqueda. Los campos son `companyName`, `siteUrl`, `contactEmail`, `whatsappNumber`, `whatsappMessage` y `formEndpoint` (vacío por defecto). Si algún día hiciera falta un valor privado, irá por una variable de entorno `PUBLIC_…` documentada en el README y nunca comiteada; hoy no hace falta.
+Opción elegida: «`src/config/site.ts` con un objeto `site`», porque ya existe, se importa desde `astro.config.ts` y desde cualquier módulo, y se puede probar y revisar con una búsqueda. Los campos son `companyName`, `siteUrl`, `contactEmail`, `whatsappNumber`, `whatsappMessage` y `formEndpoint` (vacío por defecto). Las variables `PUBLIC_…` de Astro se incrustan en el HTML y el JavaScript que recibe el navegador, así que solo valen para valores públicos que cambian según el entorno, documentados en el README. Un sitio estático sin backend no puede guardar secretos: si algún día hiciera falta uno, exigiría un backend o una función de servidor y un ADR nuevo aprobado por David. Hoy no hace falta.
 
 ### Consecuencias
 

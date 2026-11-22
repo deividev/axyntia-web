@@ -37,7 +37,7 @@ Web de una sola página de Axyntia (software a medida e IA) para que pymes espa�
 | Formato                | `pnpm run format` (escribe) · `pnpm run format:check` (solo comprueba)      |
 | Tests unitarios        | `pnpm test:unit`                                                            |
 | Tests de integración   | `pnpm test:integration`                                                     |
-| Tests e2e (Playwright) | `pnpm test:e2e` · uno solo: `pnpm exec playwright test tests/e2e/<archivo>` |
+| Tests e2e (Playwright) | `pnpm test:e2e`                                                             |
 
 El gate y la CI ejecutan lint, formato, tipos, build y las tres suites. El e2e usa el puerto de `PORT` (por defecto 3000). La primera vez en local: `pnpm exec playwright install chromium`. Usa `ASTRO_TELEMETRY_DISABLED=1` en todos los comandos de Astro.
 

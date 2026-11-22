@@ -173,23 +173,25 @@ comp:
 
 **Tokens que ya existen** en `src/styles/global.css` y se conservan: `--color-axyntia-dark` (`#07080c`) equivale a `ref.color.neutral.0` y `sys.color.bg`; `--color-axyntia-light` (`#e8ecf4`) equivale a `ref.color.neutral.900` y `sys.color.text`. No se renombran ni se quitan: `tests/integration/build.test.ts` busca `.bg-axyntia-dark`, `.text-axyntia-light` y los dos valores en el CSS generado. Los tokens `sys` nuevos se añaden al mismo `@theme`.
 
+**Convención de nombres de las variables CSS:** `sys.color.text-muted` → `--color-text-muted` (y análogos: `--font-*`, `--radius-*`, `--shadow-*`, `--duration-*`); `ref.*` → `--ref-*`, que solo se declara y se usa dentro de `global.css`.
+
 ### 3.1 Color: uso y contraste
 
 Ratios calculados con la fórmula de contraste de WCAG y redondeados a 1 decimal. Mínimos: texto normal ≥ 4,5:1; texto grande y elementos de interfaz ≥ 3:1.
 
 | Token (primer plano)                                | Uso (y cuándo NO usarlo)                                 | Sobre                                       | Contraste          |
 | --------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------- | ------------------ |
-| `sys.color.text` `#E8ECF4`                          | Texto principal                                          | `bg` / `surface` / `surface-raised`         | 16,9 / 15,9 / 14,7 |
-| `sys.color.text-muted` `#9AA3B5`                    | Texto secundario; nunca información imprescindible       | `bg` / `surface` / `surface-raised`         | 7,9 / 7,4 / 6,9    |
-| `sys.color.primary` `#22D3EE` (como texto o enlace) | Enlaces y detalles; no como fondo con texto claro        | `bg` / `surface` / `surface-raised`         | 11,1 / 10,4 / 9,6  |
+| `sys.color.text` `#E8ECF4`                          | Texto principal                                          | `bg` / `surface` / `surface-raised`         | 16,9 / 16,1 / 14,7 |
+| `sys.color.text-muted` `#9AA3B5`                    | Texto secundario; nunca información imprescindible       | `bg` / `surface` / `surface-raised`         | 7,9 / 7,5 / 6,9    |
+| `sys.color.primary` `#22D3EE` (como texto o enlace) | Enlaces y detalles; no como fondo con texto claro        | `bg` / `surface` / `surface-raised`         | 11,1 / 10,5 / 9,6  |
 | `sys.color.success` `#3DF5A6`                       | Mensaje de éxito                                         | `bg` / `surface` / `surface-raised`         | 14,1 / 13,3 / 12,3 |
 | `sys.color.error` `#FF5C7A`                         | Errores (texto y borde); nunca decoración                | `bg` / `surface` / `surface-raised`         | 6,7 / 6,4 / 5,9    |
-| `sys.color.secondary` `#7C5CFF` (como texto)        | **No usar como texto**: solo elemento gráfico y fondo    | `bg` / `surface` / `surface-raised`         | 4,6 / 4,3 / 4,0    |
+| `sys.color.secondary` `#7C5CFF` (como texto)        | **No usar como texto**: solo elemento gráfico y fondo    | `bg` / `surface` / `surface-raised`         | 4,6 / 4,4 / 4,0    |
 | `sys.color.text-inverse` `#07080C`                  | Texto sobre cian, verde de WhatsApp, violeta y degradado | `primary`                                   | 11,1               |
 | `sys.color.text-inverse` `#07080C`                  | Texto del botón de WhatsApp                              | `whatsapp` `#25D366`                        | 10,1               |
 | `sys.color.text-inverse` `#07080C`                  | Texto del botón primario                                 | degradado de marca (extremo cian / violeta) | 11,1 / 4,6         |
-| `sys.color.border-control` `#9AA3B5`                | Borde de campos, casillas y desplegables (WCAG 1.4.11)   | `bg` / `surface` / `surface-raised`         | 7,9 / 7,4 / 6,9    |
-| `sys.color.focus-ring` `#22D3EE`                    | Anillo de foco de 2 px                                   | `bg` / `surface` / `surface-raised`         | 11,1 / 10,4 / 9,6  |
+| `sys.color.border-control` `#9AA3B5`                | Borde de campos, casillas y desplegables (WCAG 1.4.11)   | `bg` / `surface` / `surface-raised`         | 7,9 / 7,5 / 6,9    |
+| `sys.color.focus-ring` `#22D3EE`                    | Anillo de foco de 2 px                                   | `bg` / `surface` / `surface-raised`         | 11,1 / 10,5 / 9,6  |
 | `ref.color.whatsapp` `#25D366` (fondo del botón)    | Solo el botón de WhatsApp                                | `bg`                                        | 10,1               |
 
 **Pares que no llegaban y su solución** (la paleta aprobada no cambia):
@@ -254,7 +256,7 @@ Se comprueba a 360, 768, 1024 y 1440 px de ancho sin scroll horizontal ni solape
 
 ## 5. Componentes
 
-Matriz de estados: ✓ = definido y probado (e2e o revisión); — = no aplica (el motivo está en Notas). Foco = anillo de 2 px con `sys.color.focus-ring`, contraste ≥ 3:1. Cargando = sin doble envío.
+Matriz de estados: ✓ = definido; lo prueba (e2e o revisión) el trabajo que crea el componente; — = no aplica (el motivo está en Notas). Foco = anillo de 2 px con `sys.color.focus-ring`, contraste ≥ 3:1. Cargando = sin doble envío.
 
 | Componente                           | Cuándo usarlo                                           | Variantes                         | Normal | Hover | Foco | Deshab. | Cargando | Vacío | Error | Tokens comp       | Notas                                                                                                                                                                                    |
 | ------------------------------------ | ------------------------------------------------------- | --------------------------------- | ------ | ----- | ---- | ------- | -------- | ----- | ----- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -287,22 +289,22 @@ Matriz de estados: ✓ = definido y probado (e2e o revisión); — = no aplica (
 | Objetivos táctiles ≥ 24×24 px (botones y casillas ≥ 44×44 px)                        | 2.5.8               | Revisión                                                                 |
 | Campos con etiqueta visible y nombre accesible; errores en texto, no solo color      | 1.3.1, 3.3.1, 1.4.1 | Análisis automático y prueba e2e del formulario                          |
 | Imágenes con `alt` (las decorativas, vacío)                                          | 1.1.1               | Análisis automático                                                      |
-| Contenido usable a 320 px y al 200 % de zoom sin scroll horizontal                   | 1.4.4, 1.4.10       | Prueba e2e a 360 px                                                      |
+| Contenido usable a 320 px y al 200 % de zoom sin scroll horizontal                   | 1.4.4, 1.4.10       | Prueba e2e a 320 px (además de los anchos de RNF-003)                    |
 | Respeta `prefers-reduced-motion`                                                     | 2.3.3 (adoptado)    | Prueba e2e con `emulateMedia`                                            |
 
 ## 7. Reglas para agentes
 
 1. **Nunca valores a mano.** Ningún color hex, `rgb`, `hsl`, tamaño en px, radio, sombra o duración fuera de `src/styles/global.css`. Se comprueba con: `grep -rnE '#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(|\[[0-9.]+(px|rem|ms|s)\]' src --exclude=global.css` (debe dar 0 resultados).
 2. Usa tokens `sys` (o `comp`); nunca `ref` en un componente. Se comprueba con: `grep -rn 'ref-' src --exclude=global.css` (0 resultados).
-3. Antes de crear un componente, busca en la sección 5. Si la spec lo pide, rellena su fila completa (todos los estados) en el mismo cambio; si no, no toques este documento y anota en `risk_signals` la fila que falta.
+3. Antes de crear un componente, busca en la sección 5. Si la spec lo pide, rellena su fila completa (todos los estados) en el mismo cambio; si no, no toques este documento y anota en `risk_signals` la fila que falta. Se comprueba con la revisión del Reviewer: contrasta `ls src/components` con las filas de la sección 5 (cada componente tiene su fila).
 4. Cada componente nuevo cubre los estados de su fila; los ✓ tienen prueba e2e o revisión del Reviewer.
 5. Texto sobre cian, verde de WhatsApp, verde de éxito o el degradado de marca usa `sys.color.text-inverse`; el violeta no se usa como texto. Se comprueba con la tabla de 3.1 y con el análisis de contraste del e2e de la landing.
-6. Los bordes de campos y casillas usan `border-control`, no `border`. Se comprueba con la revisión del Reviewer y el análisis de contraste de la landing.
+6. Los bordes de campos y casillas usan `border-control`, no `border`. Se comprueba con el análisis de contraste de la landing y con `grep -rnE 'border-(border|\[)' src` en campos y casillas (revisión del Reviewer de los resultados).
 7. Cada animación tiene alternativa con `prefers-reduced-motion: reduce` (sección 3.3). Se comprueba con la prueba e2e con `emulateMedia` de la landing.
 8. Sin GSAP ni three.js ni otras librerías de animación. Se comprueba con: `grep -nE '"(gsap|three)"' package.json` (0 resultados).
 9. Fuentes solo autoalojadas en `public/fonts`. Se comprueba con: `grep -rnE 'fonts\.(googleapis|gstatic)\.com' src public` (0 resultados) y la prueba e2e de 0 peticiones a terceros.
 10. No renombres ni quites `--color-axyntia-dark` ni `--color-axyntia-light`; los comprueba `tests/integration/build.test.ts`.
-11. No copies textos, imágenes ni código de las referencias de inspiración. Se comprueba con la revisión del Reviewer.
+11. No copies textos, imágenes ni código de las referencias de inspiración. No es automatizable: lo comprueba el Reviewer en cada PR y, como apoyo, `grep -rniE 'linear\.app|stripe\.com|raycast\.com|resend\.com|huly\.io|lusion\.co|awwwards\.com' src public` debe dar 0 resultados.
 
 ## 8. Historial de cambios
 
