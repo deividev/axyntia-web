@@ -1,21 +1,21 @@
 ---
-import '../styles/global.css';
-import { site } from '../config/site';
-
-const title = `${site.companyName} — web en construcción`;
+import Layout from '../components/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import Reasons from '../components/Reasons.astro';
+import Contact from '../components/Contact.astro';
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-  </head>
-  <body class="bg-axyntia-dark text-axyntia-light flex min-h-screen items-center justify-center p-6">
-    <main class="max-w-xl text-center">
-      <h1 class="text-3xl font-semibold">{site.companyName}</h1>
-      <p class="mt-4">Software a medida e IA. Estamos preparando la web: vuelve pronto.</p>
-    </main>
-  </body>
-</html>
+<Layout
+  title="Axyntia · Software a medida e IA para pymes"
+  description="CRM en 3D, software a medida, agentes de IA y automatizaciones que ahorran horas y costes a pymes españolas. Pide tu propuesta sin compromiso."
+  path="/"
+  jsonLd
+>
+  <Hero />
+  <Services />
+  <Process />
+  <Reasons />
+  <Contact />
+</Layout>

@@ -1,0 +1,40 @@
+---
+import Layout from '../components/Layout.astro';
+import { site } from '../config/site';
+---
+
+<Layout
+  title="Aviso legal · Axyntia"
+  description="Aviso legal del sitio web de Axyntia."
+  path="/aviso-legal"
+  anchorBase="/"
+>
+  <article class="mx-auto max-w-3xl px-6 pt-32 pb-20">
+    <h1 class="text-4xl font-bold">Aviso legal</h1>
+    <p class="text-text-muted mt-4">
+      Texto base provisional: los marcadores se completan y se revisan antes de publicar.
+    </p>
+    <h2 class="mt-10 text-2xl font-bold">Datos del titular</h2>
+    <ul class="text-text-muted mt-3 list-disc space-y-1 pl-6">
+      <li>Titular: [POR COMPLETAR: titular]</li>
+      <li>NIF: [POR COMPLETAR: NIF]</li>
+      <li>Domicilio: [POR COMPLETAR: domicilio]</li>
+      <li>Email: [POR COMPLETAR: email] (contacto actual: {site.contactEmail})</li>
+    </ul>
+    <h2 class="mt-10 text-2xl font-bold">Objeto</h2>
+    <p class="text-text-muted mt-3">
+      Este sitio web presenta los servicios de {site.companyName}: software a medida, CRM en 3D,
+      agentes de IA y automatizaciones.
+    </p>
+    <h2 class="mt-10 text-2xl font-bold">Propiedad intelectual</h2>
+    <p class="text-text-muted mt-3">
+      Los contenidos del sitio pertenecen a su titular. Queda prohibida su reproducción sin
+      autorización.
+    </p>
+    <h2 class="mt-10 text-2xl font-bold">Responsabilidad</h2>
+    <p class="text-text-muted mt-3">
+      El titular procura que la información sea correcta, pero no garantiza que esté libre de
+      errores ni se hace responsable del uso que se haga de ella.
+    </p>
+  </article>
+</Layout>

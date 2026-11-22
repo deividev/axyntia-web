@@ -1,0 +1,106 @@
+---
+import { site } from '../config/site';
+import { SERVICES } from '../lib/services';
+import { MESSAGE_MAX } from '../lib/contact';
+
+// Margen sobre el máximo para que escribir de más muestre el error de longitud en vez de cortar.
+const MESSAGE_SLACK = 500;
+import WhatsAppLink from './WhatsAppLink.astro';
+---
+
+<form
+  id="contact-form"
+  novalidate
+  data-endpoint={site.formEndpoint}
+  class="mt-8 space-y-5"
+  method="post"
+  action="#contacto"
+>
+  <div
+    id="contact-summary"
+    aria-live="assertive"
+    class="border-error rounded-md border p-4 empty:hidden"
+  ></div>
+
+  <div>
+    <label for="nombre" class="mb-1 block font-medium">
+      Nombre
+    </label>
+    <input id="nombre" name="nombre" type="text" autocomplete="name" required class="field" />
+    <p id="nombre-error" class="field-error empty:hidden"></p>
+  </div>
+  <div>
+    <label for="email" class="mb-1 block font-medium">
+      Email
+    </label>
+    <input id="email" name="email" type="email" autocomplete="email" required class="field" />
+    <p id="email-error" class="field-error empty:hidden"></p>
+  </div>
+  <div>
+    <label for="empresa" class="mb-1 block font-medium">
+      Empresa (opcional)
+    </label>
+    <input id="empresa" name="empresa" type="text" autocomplete="organization" class="field" />
+  </div>
+  <div>
+    <label for="servicio" class="mb-1 block font-medium">
+      Servicio de interés
+    </label>
+    <select id="servicio" name="servicio" class="field">
+      <option value="">Elige un servicio</option>
+      {SERVICES.map((s) => (
+        <option value={s.id}>{s.title}</option>
+      ))}
+      <option value="otro">Otro</option>
+    </select>
+  </div>
+  <div>
+    <label for="mensaje" class="mb-1 block font-medium">
+      Mensaje
+    </label>
+    <textarea
+      id="mensaje"
+      name="mensaje"
+      rows="5"
+      maxlength={MESSAGE_MAX + MESSAGE_SLACK}
+      required
+      class="field"
+    ></textarea>
+    <p id="mensaje-error" class="field-error empty:hidden"></p>
+  </div>
+  <div>
+    <div class="flex items-start gap-3">
+      <input id="privacidad" name="privacidad" type="checkbox" class="mt-1 h-6 w-6 shrink-0" />
+      <label for="privacidad">
+        He leído y acepto la{' '}
+        <a href="/privacidad" class="text-primary underline">
+          política de privacidad
+        </a>
+        .
+      </label>
+    </div>
+    <p id="privacidad-error" class="field-error empty:hidden"></p>
+  </div>
+
+  <div class="hp" aria-hidden="true">
+    <label for="gotcha">No rellenar</label>
+    <input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <button type="submit" class="btn btn-primary w-full sm:w-auto" disabled>
+    Enviar mensaje
+  </button>
+
+  <div id="contact-status" aria-live="polite" class="text-text"></div>
+  <p id="contact-alt" hidden class="text-text-muted">
+    También puedes <WhatsAppLink label="escribirnos por WhatsApp" variant="inline" /> o
+    <a class="text-primary underline" href={`mailto:${site.contactEmail}`}>
+      enviarnos un email
+    </a>
+    .
+  </p>
+</form>
+
+<script>
+  import '../scripts/contact-form';
+</script>

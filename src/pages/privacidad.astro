@@ -1,0 +1,36 @@
+---
+import Layout from '../components/Layout.astro';
+import { site } from '../config/site';
+---
+
+<Layout
+  title="Política de privacidad · Axyntia"
+  description="Política de privacidad del sitio web de Axyntia."
+  path="/privacidad"
+  anchorBase="/"
+>
+  <article class="mx-auto max-w-3xl px-6 pt-32 pb-20">
+    <h1 class="text-4xl font-bold">Política de privacidad</h1>
+    <p class="text-text-muted mt-4">
+      Texto base provisional: los marcadores se completan y se revisan antes de publicar.
+    </p>
+    <h2 class="mt-10 text-2xl font-bold">Responsable</h2>
+    <ul class="text-text-muted mt-3 list-disc space-y-1 pl-6">
+      <li>Titular: [POR COMPLETAR: titular]</li>
+      <li>NIF: [POR COMPLETAR: NIF]</li>
+      <li>Domicilio: [POR COMPLETAR: domicilio]</li>
+      <li>Email: [POR COMPLETAR: email] (contacto actual: {site.contactEmail})</li>
+    </ul>
+    <h2 class="mt-10 text-2xl font-bold">Datos del formulario de contacto</h2>
+    <p class="text-text-muted mt-3">
+      Los datos que escribes en el formulario (nombre, email, empresa, servicio de interés y
+      mensaje) se envían a Formspree solo para hacer llegar el mensaje a {site.companyName}. Los
+      usamos únicamente para responderte. [POR COMPLETAR: base jurídica, plazo de conservación y
+      derechos]
+    </p>
+    <h2 class="mt-10 text-2xl font-bold">Cookies y analítica</h2>
+    <p class="text-text-muted mt-3">
+      Este sitio no usa cookies ni herramientas de analítica, por eso no hay banner de cookies.
+    </p>
+  </article>
+</Layout>

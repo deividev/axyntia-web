@@ -4,9 +4,11 @@ test('la página de inicio carga con su título y su h1', async ({ page }) => {
   const response = await page.goto('/');
 
   expect(response?.status()).toBe(200);
-  await expect(page).toHaveTitle('Axyntia — web en construcción');
+  await expect(page).toHaveTitle('Axyntia · Software a medida e IA para pymes');
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Axyntia');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Software a medida e IA que trabajan para tu empresa',
+  );
 });
 
 test('a 360 px de ancho no hay scroll horizontal', async ({ page }) => {
