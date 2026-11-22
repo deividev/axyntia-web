@@ -1,0 +1,19 @@
+---
+// Único punto que genera enlaces de WhatsApp (RF-025, RF-026).
+import { site } from '../config/site';
+import { buildWhatsAppUrl } from '../lib/whatsapp';
+
+interface Props {
+  label: string;
+  variant?: 'button' | 'inline';
+}
+const { label, variant = 'button' } = Astro.props;
+const href = buildWhatsAppUrl(site.whatsappNumber, site.whatsappMessage);
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class={variant === 'button' ? 'btn btn-whatsapp' : 'text-primary underline'}>{label}</a
+>

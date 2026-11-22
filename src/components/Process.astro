@@ -1,0 +1,43 @@
+---
+const steps = [
+  {
+    title: 'Descubrimiento',
+    text: 'Hablamos contigo, entendemos tu negocio y detectamos dónde se pierde tiempo y dinero.',
+  },
+  {
+    title: 'Diseño y prototipo',
+    text: 'Te enseñamos cómo quedará antes de construirlo, para que decidas con algo real delante.',
+  },
+  {
+    title: 'Desarrollo por iteraciones',
+    text: 'Entregamos por partes y ajustamos con tu opinión en cada entrega.',
+  },
+  {
+    title: 'Lanzamiento y mejora continua',
+    text: 'Ponemos todo en marcha, formamos a tu equipo y seguimos mejorando con el uso real.',
+  },
+];
+---
+
+<section id="como-trabajamos" data-reveal class="bg-surface py-20">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="text-primary font-mono text-sm">// Cómo trabajamos</p>
+    <h2 class="mt-3 text-3xl font-bold md:text-4xl">Un proceso claro, paso a paso</h2>
+    <div class="relative mt-12 pl-10">
+      <div class="bg-border absolute top-0 bottom-0 left-3 w-1" aria-hidden="true">
+        <div data-progress-line class="progress-line bg-brand h-full w-full"></div>
+      </div>
+      <ol class="space-y-10">
+        {
+          steps.map((s, i) => (
+            <li class="relative">
+              <span class="text-primary font-mono text-sm">Paso {i + 1}</span>
+              <h3 class="mt-1 text-xl font-bold">{s.title}</h3>
+              <p class="text-text-muted mt-2 max-w-2xl">{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
