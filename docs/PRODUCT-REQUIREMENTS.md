@@ -216,7 +216,7 @@ Como persona que busca o recibe el enlace de Axyntia, quiero ver un título, una
 | RF-043 | EL SISTEMA DEBE publicar `robots.txt`                                                                                                                         | HU-06    | P2        |
 | RF-044 | EL SISTEMA DEBE ofrecer un favicon SVG                                                                                                                        | HU-06    | P2        |
 | RF-045 | EL SISTEMA DEBE declarar el idioma del documento como español                                                                                                 | HU-04    | P1        |
-| RF-046 | EL SISTEMA DEBE dar texto alternativo a las imágenes informativas y `alt` vacío a las decorativas                                                              | HU-04    | P1        |
+| RF-046 | EL SISTEMA DEBE dar texto alternativo a las imágenes informativas y `alt` vacío a las decorativas                                                             | HU-04    | P1        |
 
 **No funcionales**
 
