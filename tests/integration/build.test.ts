@@ -69,7 +69,10 @@ describe('estructura de la landing (CA-1, CA-2)', () => {
   it('CA-2: un h1 por página y sin saltos de nivel de encabezado', () => {
     for (const [route, doc] of Object.entries(pages())) {
       const levels = [...doc.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
-      expect(levels.filter((l) => l === 1), route).toHaveLength(1);
+      expect(
+        levels.filter((l) => l === 1),
+        route,
+      ).toHaveLength(1);
       levels.forEach((l, i) => {
         expect(l - (levels[i - 1] ?? 0), `${route} h${l}`).toBeLessThanOrEqual(1);
       });
