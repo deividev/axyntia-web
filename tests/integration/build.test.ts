@@ -1,12 +1,13 @@
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
-import os from 'node:os';
 import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 // Integración real: compila el sitio con `astro build` (Astro y Tailwind de verdad) en una carpeta
 // temporal propia, para no depender de que se haya ejecutado antes el build ni tocar dist/.
+// La carpeta está dentro del proyecto (.tmp-build-*, ignorada por git): Astro mueve archivos con rename y,
+// en el contenedor de la CI y del gate, /tmp está en otro sistema de archivos (EXDEV).
 const root = path.resolve(import.meta.dirname, '../..');
 const astroBin = path.join(
   path.dirname(createRequire(import.meta.url).resolve('astro/package.json')),
@@ -17,7 +18,7 @@ let html = '';
 let css = '';
 
 beforeAll(() => {
-  outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'axyntia-build-'));
+  outDir = fs.mkdtempSync(path.join(root, '.tmp-build-'));
   const r = spawnSync(process.execPath, [astroBin, 'build', '--outDir', outDir, '--silent'], {
     cwd: root,
     encoding: 'utf8',
