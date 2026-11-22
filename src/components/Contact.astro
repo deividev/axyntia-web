@@ -17,16 +17,22 @@ const waUrl = buildWhatsAppUrl(site.whatsappNumber, site.whatsappMessage);
     <noscript>
       <p class="border-border-control mt-6 rounded-md border p-4">
         Para enviar el formulario hace falta JavaScript. Mientras tanto, escríbenos a
-        <a class="text-primary underline" href={`mailto:${site.contactEmail}`}
-          >{site.contactEmail}</a
-        >
-        o por <a class="text-primary underline" href={waUrl}>WhatsApp</a>.
+        <a class="text-primary underline" href={`mailto:${site.contactEmail}`}>
+          {site.contactEmail}
+        </a>
+        o por{' '}
+        <a class="text-primary underline" href={waUrl}>
+          WhatsApp
+        </a>
+        .
       </p>
     </noscript>
     <ContactForm />
     <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
       <WhatsAppLink label="Escríbenos por WhatsApp" />
-      <a class="text-primary underline" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+      <a class="text-primary underline" href={`mailto:${site.contactEmail}`}>
+        {site.contactEmail}
+      </a>
     </div>
   </div>
 </section>

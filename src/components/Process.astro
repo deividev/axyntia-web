@@ -28,15 +28,13 @@ const steps = [
         <div data-progress-line class="progress-line bg-brand h-full w-full"></div>
       </div>
       <ol class="space-y-10">
-        {
-          steps.map((s, i) => (
-            <li class="relative">
-              <span class="text-primary font-mono text-sm">Paso {i + 1}</span>
-              <h3 class="mt-1 text-xl font-bold">{s.title}</h3>
-              <p class="text-text-muted mt-2 max-w-2xl">{s.text}</p>
-            </li>
-          ))
-        }
+        {steps.map((s, i) => (
+          <li class="relative">
+            <span class="text-primary font-mono text-sm">Paso {i + 1}</span>
+            <h3 class="mt-1 text-xl font-bold">{s.title}</h3>
+            <p class="text-text-muted mt-2 max-w-2xl">{s.text}</p>
+          </li>
+        ))}
       </ol>
     </div>
   </div>

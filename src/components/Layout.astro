@@ -39,20 +39,20 @@ const ogImage = absoluteUrl(site.siteUrl, '/og-image.png');
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    {
-      jsonLd && (
-        <script
-          type="application/ld+json"
-          set:html={serializeJsonLd(buildOrganizationJsonLd(site))}
-        />
-      )
-    }
+    {jsonLd && (
+      <script
+        type="application/ld+json"
+        set:html={serializeJsonLd(buildOrganizationJsonLd(site))}
+      />
+    )}
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
   </head>
   <body class="bg-axyntia-dark text-axyntia-light min-h-screen">
-    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+    <a href="#contenido" class="skip-link">
+      Saltar al contenido
+    </a>
     <SiteHeader anchorBase={anchorBase} />
     <main id="contenido" tabindex="-1" class="outline-none">
       <slot />
