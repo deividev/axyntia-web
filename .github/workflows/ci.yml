@@ -1,0 +1,82 @@
+# Ruta protegida: solo la cambia David.
+# Ejecuta los mismos comandos que el gate de la factoría (factory/config/proyectos/axyntia-web/factory.yaml)
+# para usarlo como check obligatorio de main.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Misma imagen que el gate: la oficial de Playwright de la versión de @playwright/test del proyecto.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      options: --ipc=host
+    env:
+      CI: 'true'
+      PORT: '3000'
+      ASTRO_TELEMETRY_DISABLED: '1' # sin telemetría de Astro (también en el gate)
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1 (versión del campo packageManager)
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Instalación limpia
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Formato
+        run: pnpm run format:check
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Tests unitarios
+        run: pnpm exec vitest run --project unit --allowOnly=false --reporter=default --reporter=json --outputFile.json=gate-out/unit.json
+
+      - name: Tests de integración
+        run: pnpm exec vitest run --project integration --allowOnly=false --reporter=default --reporter=json --outputFile.json=gate-out/integration.json
+
+      - name: Tests e2e (Playwright)
+        run: pnpm exec playwright test --reporter=list,json --retries=0 --forbid-only
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: gate-out/e2e.json
+
+      - name: Árbol limpio
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          test -z "$(git status --porcelain)" || { git status --porcelain; exit 1; }
+
+      - name: Informes del gate
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: gate-out
+          path: |
+            gate-out/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 14

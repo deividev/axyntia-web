@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-axyntia-dark: #07080c;
+  --color-axyntia-light: #e8ecf4;
+}

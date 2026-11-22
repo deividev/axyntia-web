@@ -1,0 +1,21 @@
+---
+import '../styles/global.css';
+import { site } from '../config/site';
+
+const title = `${site.companyName} — web en construcción`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-axyntia-dark text-axyntia-light flex min-h-screen items-center justify-center p-6">
+    <main class="max-w-xl text-center">
+      <h1 class="text-3xl font-semibold">{site.companyName}</h1>
+      <p class="mt-4">Software a medida e IA. Estamos preparando la web: vuelve pronto.</p>
+    </main>
+  </body>
+</html>

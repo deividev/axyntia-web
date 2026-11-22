@@ -1,0 +1,12 @@
+# Configuración de pnpm (DECISIONES §15, Importante 5). Archivo protegido: solo lo cambia David.
+
+# Ninguna dependencia puede ejecutar scripts de instalación.
+onlyBuiltDependencies: []
+# Si una dependencia pide ejecutar scripts de instalación, la instalación falla en vez de avisar.
+strictDepBuilds: true
+# Solo versiones publicadas hace al menos 1 día (en minutos).
+minimumReleaseAge: 1440
+# Versiones exactas al añadir dependencias.
+saveExact: true
+# Respeta el campo "engines" (Node >= 24).
+engineStrict: true
