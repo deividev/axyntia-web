@@ -2,9 +2,6 @@
 import { site } from '../config/site';
 import ContactForm from './ContactForm.astro';
 import WhatsAppLink from './WhatsAppLink.astro';
-import { buildWhatsAppUrl } from '../lib/whatsapp';
-
-const waUrl = buildWhatsAppUrl(site.whatsappNumber, site.whatsappMessage);
 ---
 
 <section id="contacto" data-reveal class="bg-surface py-20">
@@ -20,11 +17,7 @@ const waUrl = buildWhatsAppUrl(site.whatsappNumber, site.whatsappMessage);
         <a class="text-primary underline" href={`mailto:${site.contactEmail}`}>
           {site.contactEmail}
         </a>
-        o por{' '}
-        <a class="text-primary underline" href={waUrl}>
-          WhatsApp
-        </a>
-        .
+        o por <WhatsAppLink label="WhatsApp" variant="inline" />.
       </p>
     </noscript>
     <ContactForm />

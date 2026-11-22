@@ -18,6 +18,23 @@ const links = [
     <a href="/" aria-label="Axyntia, inicio">
       <Wordmark />
     </a>
+    {/* El botón va en el DOM justo antes del nav (orden de foco, WCAG 2.4.3); order-last lo deja a la derecha. */}
+    <button
+      type="button"
+      class="menu-btn border-border-control text-text order-last h-11 min-w-11 items-center justify-center rounded-md border px-3"
+      aria-controls="site-nav"
+      aria-expanded="false"
+      aria-label="Menú"
+    >
+      <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" aria-hidden="true">
+        <path
+          d="M4 7h16M4 12h16M4 17h16"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></path>
+      </svg>
+    </button>
     <nav id="site-nav" aria-label="Principal" class="nav-links lg:ml-auto">
       {links.map((l) => (
         <a href={`${anchorBase}#${l.href}`} class="text-text-muted hover:text-text py-2">
@@ -29,22 +46,6 @@ const links = [
       <a href={`${anchorBase}#contacto`} class="btn btn-primary hidden sm:inline-flex">
         Hablemos
       </a>
-      <button
-        type="button"
-        class="menu-btn border-border-control text-text h-11 min-w-11 items-center justify-center rounded-md border px-3"
-        aria-controls="site-nav"
-        aria-expanded="false"
-        aria-label="Menú"
-      >
-        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" aria-hidden="true">
-          <path
-            d="M4 7h16M4 12h16M4 17h16"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          ></path>
-        </svg>
-      </button>
     </div>
   </div>
 </header>

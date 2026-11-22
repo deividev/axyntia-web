@@ -39,6 +39,17 @@ test('CA-4: el menú móvil se abre con Enter y Escape lo cierra devolviendo el 
   await expect(button).toBeFocused();
 });
 
+test('CA-4: tras abrir el menú con Enter, Tab lleva al primer enlace del menú', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.goto('/');
+  await menuButton(page).focus();
+  await page.keyboard.press('Enter');
+  await page.keyboard.press('Tab');
+  await expect(page.locator('#site-nav a').first()).toBeFocused();
+});
+
 test('CA-5: elegir «Contacto» en el menú móvil lo cierra y va a #contacto', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 740 });
   await page.goto('/');

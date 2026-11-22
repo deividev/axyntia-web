@@ -2,6 +2,9 @@
 import { site } from '../config/site';
 import { SERVICES } from '../lib/services';
 import { MESSAGE_MAX } from '../lib/contact';
+
+// Margen sobre el máximo para que escribir de más muestre el error de longitud en vez de cortar.
+const MESSAGE_SLACK = 500;
 import WhatsAppLink from './WhatsAppLink.astro';
 ---
 
@@ -59,7 +62,7 @@ import WhatsAppLink from './WhatsAppLink.astro';
       id="mensaje"
       name="mensaje"
       rows="5"
-      maxlength={MESSAGE_MAX + 500}
+      maxlength={MESSAGE_MAX + MESSAGE_SLACK}
       required
       class="field"
     ></textarea>

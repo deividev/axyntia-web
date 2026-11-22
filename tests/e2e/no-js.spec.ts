@@ -21,7 +21,10 @@ test('CA-27: sin JavaScript hay aviso con email y WhatsApp, y el formulario no e
   await button.click({ force: true });
   await contact.locator('#nombre').fill('Ana');
   await contact.locator('#nombre').press('Enter');
-  await page.waitForTimeout(300);
+  await page.waitForLoadState('networkidle');
+  const noscriptWa = contact.locator('noscript p a[href*="wa.me"]');
+  await expect(noscriptWa).toHaveAttribute('target', '_blank');
+  await expect(noscriptWa).toHaveAttribute('rel', 'noopener noreferrer');
   expect(new URL(page.url()).pathname).toBe('/');
   expect(new URL(page.url()).search).toBe('');
   expect(requests.filter((r) => r.method === 'POST')).toEqual([]);

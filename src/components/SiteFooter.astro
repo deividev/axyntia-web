@@ -1,5 +1,6 @@
 ---
 import Wordmark from './Wordmark.astro';
+import { site } from '../config/site';
 
 interface Props {
   anchorBase?: '' | '/';
@@ -33,5 +34,7 @@ const links = [
       </a>
     </nav>
   </div>
-  <p class="text-text-muted mx-auto max-w-6xl px-6 pb-8 text-sm">© {year} Axyntia</p>
+  <p class="text-text-muted mx-auto max-w-6xl px-6 pb-8 text-sm">
+    © {year} {site.companyName}
+  </p>
 </footer>

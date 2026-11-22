@@ -107,7 +107,9 @@ test('CA-21: con el honeypot relleno no se envía nada ni se explica', async ({ 
   await fillValid(page);
   await page.locator('#gotcha').fill('soy un bot', { force: true });
   await submit(page).click();
-  await page.waitForTimeout(300);
+  await expect(submit(page)).toBeEnabled();
+  await expect(page.locator('#contact-status')).toBeEmpty();
+  await page.waitForLoadState('networkidle');
   expect(posts).toEqual([]);
   expect(await mailto()).toEqual([]);
   const feedback = `${await page.locator('#contact-status').innerText()} ${await page.locator('#contact-summary').innerText()}`;
