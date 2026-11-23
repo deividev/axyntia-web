@@ -178,9 +178,7 @@ describe('astro build de la página de inicio', () => {
     const all = (dir: string): string[] =>
       fs
         .readdirSync(dir, { withFileTypes: true })
-        .flatMap((e) =>
-          e.isDirectory() ? all(path.join(dir, e.name)) : [path.join(dir, e.name)],
-        );
+        .flatMap((e) => (e.isDirectory() ? all(path.join(dir, e.name)) : [path.join(dir, e.name)]));
     expect(all(outDir).filter((f) => /\.(woff2?|ttf|otf)$/i.test(f))).toEqual([]);
     expect(css).not.toContain('@font-face');
   });

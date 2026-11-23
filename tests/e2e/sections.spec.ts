@@ -1,29 +1,91 @@
 import { expect, test } from '@playwright/test';
 import { site } from '../../src/config/site';
+import { SERVICES } from '../../src/lib/services';
 import { buildWhatsAppUrl } from '../../src/lib/whatsapp';
 
-test('CA-10: Servicios tiene 4 tarjetas con título exacto, icono y 3 beneficios', async ({
+test('CA-6: Servicios tiene 4 filas de albarán con título, número, descripción y 3 beneficios', async ({
   page,
 }) => {
   await page.goto('/');
-  const titles = page.locator('#servicios h3');
-  await expect(titles).toHaveText([
-    'CRM personalizados en 3D',
-    'Desarrollo de software a medida',
-    'Agentes de IA personalizados',
-    'Automatizaciones que reducen gastos en tu empresa',
-  ]);
-  const cards = page.locator('#servicios article');
-  await expect(cards).toHaveCount(4);
-  for (let i = 0; i < 4; i++) {
-    await expect(cards.nth(i).locator('svg')).toHaveCount(1);
-    await expect(cards.nth(i).locator('ul > li')).toHaveCount(3);
+  await expect(page.locator('#servicios h3')).toHaveText(SERVICES.map((s) => s.title));
+  const rows = page.locator('#servicios [data-service-row]');
+  await expect(rows).toHaveCount(4);
+  for (const [i, service] of SERVICES.entries()) {
+    const row = rows.nth(i);
+    await expect(row.locator('[data-line-number]')).toHaveText(new RegExp(`${i + 1}$`));
+    await expect(row).toContainText(service.description);
+    await expect(row.locator('ul > li')).toHaveCount(3);
+    for (const [j, benefit] of service.benefits.entries()) {
+      await expect(row.locator('ul > li').nth(j)).toContainText(benefit);
+    }
   }
 });
 
-test('CA-11: Cómo trabajamos tiene 4 pasos en orden y la línea avanza con el scroll', async ({
+test('CA-7: las filas de servicios no tienen icono, sombra ni caja redondeada', async ({
   page,
 }) => {
+  await page.goto('/');
+  const rows = page.locator('#servicios [data-service-row]');
+  for (let i = 0; i < 4; i++) {
+    const row = rows.nth(i);
+    await expect(row.locator('svg')).toHaveCount(0);
+    await expect(row).toHaveCSS('box-shadow', 'none');
+    await expect(row).toHaveCSS('border-radius', '0px');
+  }
+});
+
+test('CA-8: el número de línea usa serif del sistema con cifras de ancho fijo', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const number = page.locator('#servicios [data-line-number]').first();
+  const family = await number.evaluate((el) => getComputedStyle(el).fontFamily);
+  expect(family).toMatch(/^(ui-serif|Georgia)/);
+  const numeric = await number.evaluate((el) => getComputedStyle(el).fontVariantNumeric);
+  expect(numeric).toContain('tabular-nums');
+});
+
+test('CA-9: a 390 px las columnas de una fila se apilan con su rótulo visible', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const row = page.locator('#servicios [data-service-row]').first();
+  await expect(row.getByText('Qué resuelve', { exact: true })).toBeVisible();
+  await expect(row.getByText('Qué consigues', { exact: true })).toBeVisible();
+  const cells = await row.locator(':scope > div').evaluateAll((els) =>
+    els.map((el) => {
+      const r = el.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom };
+    }),
+  );
+  expect(cells).toHaveLength(3);
+  cells.slice(1).forEach((c, i) => {
+    expect(c.top).toBeGreaterThanOrEqual(cells[i]!.bottom - 1);
+  });
+  const { scrollWidth, innerWidth } = await page.evaluate(() => ({
+    scrollWidth: document.documentElement.scrollWidth,
+    innerWidth: window.innerWidth,
+  }));
+  expect(scrollWidth).toBeLessThanOrEqual(innerWidth);
+});
+
+test('un título largo se parte a 768 px sin desbordar su celda', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto('/');
+  const title = page.locator('#servicios h3').last();
+  const fits = await title.evaluate((el) => el.scrollWidth <= el.clientWidth);
+  expect(fits).toBe(true);
+  const overflowing = await page.evaluate(
+    () =>
+      [...document.querySelectorAll('#servicios *')].filter(
+        (el) => el.getBoundingClientRect().right > window.innerWidth,
+      ).length,
+  );
+  expect(overflowing).toBe(0);
+});
+
+test('CA-10: Cómo trabajamos tiene 4 pasos en orden con su número visible', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#como-trabajamos h3')).toHaveText([
     'Descubrimiento',
@@ -31,25 +93,12 @@ test('CA-11: Cómo trabajamos tiene 4 pasos en orden y la línea avanza con el s
     'Desarrollo por iteraciones',
     'Lanzamiento y mejora continua',
   ]);
-  const progress = () =>
-    page.evaluate(() => {
-      const line = document.querySelector<HTMLElement>('[data-progress-line]');
-      return Number(line?.style.getPropertyValue('--progress') || '0');
-    });
-  await page.evaluate(() => {
-    const s = document.getElementById('como-trabajamos')!;
-    window.scrollTo({ top: s.offsetTop - window.innerHeight + 1, behavior: 'instant' });
-  });
-  await expect.poll(progress).toBeLessThan(0.05);
-  const start = await progress();
-  await page.evaluate(() => {
-    const s = document.getElementById('como-trabajamos')!;
-    window.scrollTo({
-      top: s.offsetTop + s.offsetHeight - window.innerHeight,
-      behavior: 'instant',
-    });
-  });
-  await expect.poll(progress).toBeGreaterThan(start + 0.3);
+  const numbers = page.locator('#como-trabajamos [data-step-number]');
+  await expect(numbers).toHaveCount(4);
+  for (let i = 0; i < 4; i++) {
+    await expect(numbers.nth(i)).toBeVisible();
+    await expect(numbers.nth(i)).toHaveText(new RegExp(`${i + 1}$`));
+  }
 });
 
 test('CA-12: Por qué nosotros tiene 4 razones y ningún dígito', async ({ page }) => {

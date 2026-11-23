@@ -59,8 +59,8 @@ test('CA-5: elegir «Contacto» en el menú móvil lo cierra y va a #contacto', 
   await expect(page).toHaveURL(/#contacto$/);
 });
 
-test('CA-6: sin scroll horizontal a 320, 360, 768, 1024 y 1440 px', async ({ page }) => {
-  for (const width of [320, 360, 768, 1024, 1440]) {
+test('CA-17: sin scroll horizontal a 320, 360, 390, 768, 1024 y 1440 px', async ({ page }) => {
+  for (const width of [320, 360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/');
     const button = menuButton(page);
@@ -88,8 +88,8 @@ test('redimensionar con el menú abierto deja los enlaces visibles y sin scroll 
   expect(overflow).toBeLessThanOrEqual(0);
 });
 
-test('CA-7: la cabecera, el h1 y los botones del hero no se solapan', async ({ page }) => {
-  for (const width of [360, 768, 1024, 1440]) {
+test('CA-18: la cabecera, el h1 y los botones del hero no se solapan', async ({ page }) => {
+  for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     const boxes = [
@@ -123,9 +123,10 @@ test('CA-7: la cabecera, el h1 y los botones del hero no se solapan', async ({ p
   }
 });
 
-test('CA-8: h1, subtítulo y botón principal caben en la primera pantalla', async ({ page }) => {
+test('CA-18: h1, subtítulo y botón principal caben en la primera pantalla', async ({ page }) => {
   for (const [width, height] of [
-    [360, 740],
+    [390, 844],
+    [768, 1024],
     [1440, 900],
   ] as const) {
     await page.setViewportSize({ width, height });
@@ -152,6 +153,66 @@ test('CA-9: «Solicita una propuesta» lleva a Contacto sin taparlo la cabecera'
     .toBe(true);
 });
 
+const hablemosLink = (page: Page) => page.locator('header').getByRole('link', { name: 'Hablemos' });
+
+test('CA-19: a 768 px «Hablemos» queda a la derecha, junto a «Menú»', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto('/');
+  const header = (await page.locator('header').boundingBox())!;
+  await expect(hablemosLink(page)).toBeVisible();
+  const h = (await hablemosLink(page).boundingBox())!;
+  const m = (await menuButton(page).boundingBox())!;
+  expect(h.x).toBeGreaterThan(header.x + header.width / 2);
+  const gap = m.x - (h.x + h.width);
+  expect(gap).toBeGreaterThanOrEqual(0);
+  expect(gap).toBeLessThanOrEqual(16);
+});
+
+test('CA-20: a 640 y a 1023 px «Hablemos» y «Menú» están en la misma fila, a la derecha', async ({
+  page,
+}) => {
+  for (const width of [640, 1023]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await expect(hablemosLink(page)).toBeVisible();
+    await expect(menuButton(page)).toBeVisible();
+    const header = (await page.locator('header').boundingBox())!;
+    const h = (await hablemosLink(page).boundingBox())!;
+    const m = (await menuButton(page).boundingBox())!;
+    expect(Math.abs(h.y + h.height / 2 - (m.y + m.height / 2)), `${width}px`).toBeLessThan(4);
+    expect(h.x, `${width}px`).toBeGreaterThan(header.width / 2);
+    expect(m.x, `${width}px`).toBeGreaterThan(header.width / 2);
+  }
+});
+
+test('CA-21: a 768 px el foco recorre saltar, inicio, «Menú» y «Hablemos»', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Saltar al contenido' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Axyntia, inicio' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(menuButton(page)).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(hablemosLink(page)).toBeFocused();
+});
+
+test('límites: a 639 px «Hablemos» no está en la cabecera; a 1024 px no hay menú y hay uno solo', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 639, height: 900 });
+  await page.goto('/');
+  await expect(hablemosLink(page)).toBeHidden();
+  await menuButton(page).click();
+  await expect(page.locator('#site-nav').getByRole('link', { name: 'Contacto' })).toBeVisible();
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await expect(menuButton(page)).toBeHidden();
+  await expect(page.locator('#site-nav').getByRole('link', { name: 'Servicios' })).toBeVisible();
+  await expect(hablemosLink(page)).toHaveCount(1);
+  await expect(hablemosLink(page)).toBeVisible();
+});
+
 test('CA-14: Tab lleva al enlace «Saltar al contenido» y Enter al contenido', async ({ page }) => {
   await page.goto('/');
   await page.keyboard.press('Tab');
@@ -174,13 +235,23 @@ test('CA-15: todo es operable con teclado, el foco se ve y el honeypot no recibe
       const el = document.activeElement as HTMLElement;
       const cs = getComputedStyle(el);
       return {
+        isBody: el === document.body,
         id: el.id || el.getAttribute('href') || el.textContent?.trim() || el.tagName,
         name: el.getAttribute('name'),
-        outline: parseFloat(cs.outlineWidth) > 0 || cs.boxShadow !== 'none',
+        outline: parseFloat(cs.outlineWidth) >= 2 && cs.outlineStyle !== 'none',
+        covered:
+          !el.closest('header') &&
+          !el.classList.contains('skip-link') &&
+          !!document.querySelector('header') &&
+          el.getBoundingClientRect().top <
+            document.querySelector('header')!.getBoundingClientRect().bottom,
       };
     });
+    // Al recorrer todos los elementos, el foco vuelve al documento: ya se ha visto todo.
+    if (info.isBody) break;
     expect(info.name).not.toBe('_gotcha');
     expect(info.outline, `foco visible en ${info.id}`).toBe(true);
+    expect(info.covered, `foco tapado por la cabecera en ${info.id}`).toBe(false);
     seen.add(info.id);
   }
   for (const id of ['nombre', 'email', 'empresa', 'servicio', 'mensaje', 'privacidad']) {
