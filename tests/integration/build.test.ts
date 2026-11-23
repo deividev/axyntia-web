@@ -156,11 +156,42 @@ describe('astro build de la página de inicio', () => {
     expect(html.match(/<h1[\s>]/g) ?? []).toHaveLength(1);
   });
 
-  it('el CSS generado por Tailwind incluye las clases y los colores de la página', () => {
-    expect(html).toContain('bg-axyntia-dark');
-    expect(css).toContain('.bg-axyntia-dark');
-    expect(css).toContain('.text-axyntia-light');
-    expect(css.toLowerCase()).toContain('#07080c');
-    expect(css.toLowerCase()).toContain('#e8ecf4');
+  it('el CSS generado por Tailwind incluye los tokens de la dirección visual (CA-13, CA-14)', () => {
+    const lower = css.toLowerCase();
+    expect(lower).toMatch(/--color-bg:\s*#f4f6f8/);
+    expect(lower).toMatch(/--color-text:\s*#14181f/);
+    expect(lower).toMatch(/--color-primary:\s*#1f3c9c/);
+    expect(css).not.toContain('axyntia-dark');
+    expect(css).not.toContain('axyntia-light');
+  });
+
+  it('CA-14: el CSS no tiene degradados, backdrop-filter, animaciones infinitas ni Inter', () => {
+    expect(css).not.toMatch(/gradient|backdrop-filter|infinite/i);
+    expect(css).not.toMatch(/Inter/);
+  });
+
+  it('CA-4: el HTML no contiene canvas', () => {
+    expect(html).not.toContain('<canvas');
+  });
+
+  it('CA-15: el build no tiene archivos de fuentes ni @font-face', () => {
+    const all = (dir: string): string[] =>
+      fs
+        .readdirSync(dir, { withFileTypes: true })
+        .flatMap((e) =>
+          e.isDirectory() ? all(path.join(dir, e.name)) : [path.join(dir, e.name)],
+        );
+    expect(all(outDir).filter((f) => /\.(woff2?|ttf|otf)$/i.test(f))).toEqual([]);
+    expect(css).not.toContain('@font-face');
+  });
+
+  it('CA-33: el JS de cliente no incluye código del canvas', () => {
+    const dir = path.join(outDir, '_astro');
+    const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.js')) : [];
+    for (const f of files) {
+      const js = fs.readFileSync(path.join(dir, f), 'utf8');
+      expect(js, f).not.toContain('getContext');
+      expect(js, f).not.toContain('requestAnimationFrame');
+    }
   });
 });
