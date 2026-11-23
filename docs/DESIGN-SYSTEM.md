@@ -37,7 +37,8 @@ tags: []
 
 - **Concepto:** el libro de cuentas de la pyme: la ordenada hoja de papel donde cada cosa tiene su fila. Software a medida explicado con la calma y la claridad de un buen albarán, no con el decorado de «tecnología».
 - **La cosa atrevida:** los servicios y los pasos de trabajo se presentan como las líneas de un albarán real: una tabla de columnas alineadas (nº de línea, concepto, para quién y qué resuelve) con cabecera de columnas y el número de línea en cifras serif de ancho fijo, como en un documento de pyme. El titular del hero es sans del sistema en negrita, entero en tinta negra y sin énfasis en ninguna palabra. En móvil cada línea se apila con sus rótulos («Para quién», «Qué resuelve»). Todo lo demás es tranquilo: papel liso y texto, sin animación.
-- **Valores de marca propuestos** [POR ACLARAR: confirmar con David]: acento azul tinta `#1F3C9C`, fondo `#F4F6F8` (papel blanco azulado) y pareja de familias sans del sistema para titulares y texto con serif del sistema solo para cifras. No hay marca cerrada: son una propuesta hasta que David la apruebe.
+- **Valores de marca propuestos**: acento azul tinta `#1F3C9C`, fondo `#F4F6F8` (papel blanco azulado) y pareja de familias sans del sistema para titulares y texto con serif del sistema solo para cifras. Aprobados por David el 23 nov 2026.
+- **Aprobada por David:** 23 nov 2026, 15:06 (Europe/Madrid). Aprueba la dirección visual y la paleta tal cual (acento #1F3C9C, fondo #F4F6F8, fuentes del sistema). Registrado por Eryon por indicación expresa de David en el chat.
 - **Referencias** (se estudian, no se copian textos, imágenes ni código):
 
 | Referencia                                 | URL                                  | Qué se toma (y qué no)                                                                                                      |
