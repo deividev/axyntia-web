@@ -66,7 +66,7 @@ Axyntia es una empresa española de software a medida e IA. Sus clientes potenci
 | Botón y enlace de WhatsApp                                                                                               | Chat en vivo y agente de IA en la web: no previsto                          |
 | Páginas `/aviso-legal` y `/privacidad` con marcadores                                                                    | Textos legales definitivos: los redacta y revisa David antes de publicar    |
 | Datos para buscadores: título, descripción, imagen para compartir, datos estructurados, mapa del sitio, robots y favicon | Analítica y cookies: no previsto                                            |
-| Animaciones suaves que respetan la preferencia de movimiento reducido                                                    | Casos de éxito, clientes, cifras y testimonios: cuando existan datos reales |
+| Movimiento mínimo (solo `transform` y `opacity`) que respeta la preferencia de movimiento reducido                       | Casos de éxito, clientes, cifras y testimonios: cuando existan datos reales |
 | Logotipo de texto provisional con un símbolo sencillo                                                                    | Logo definitivo: cuando David lo encargue                                   |
 
 ## 5. Historias de usuario
@@ -76,19 +76,19 @@ Axyntia es una empresa española de software a medida e IA. Sus clientes potenci
 Como dueño o gerente de una pyme, quiero ver de un vistazo qué servicios ofrece Axyntia y cómo trabaja para decidir si le escribo.
 
 - **Por qué esta prioridad:** es la razón de la web; sin esto no hay contacto.
-- **Prueba independiente:** abrir la página en un móvil de 360 px y recorrerla de arriba abajo: están las siete secciones en orden, las cuatro tarjetas de servicio con sus títulos y las cuatro razones, sin necesidad de formulario ni páginas legales.
+- **Prueba independiente:** abrir la página en un móvil de 360 px y recorrerla de arriba abajo: están las siete secciones en orden, las cuatro filas de servicio con sus títulos y las cuatro razones, sin necesidad de formulario ni páginas legales.
 - **Criterios de aceptación:**
   - [ ] Dado que abro la página, cuando la recorro, entonces veo en este orden: cabecera fija, hero, servicios, cómo trabajamos, por qué nosotros, contacto y pie. (RF-001)
   - [ ] Dado que pulso un enlace de la cabecera, cuando el destino es una sección, entonces la página se desplaza a `#servicios`, `#como-trabajamos`, `#por-que` o `#contacto`. (RF-002)
   - [ ] EL SISTEMA DEBE mostrar un solo `h1` y una jerarquía de encabezados sin saltos de nivel. (RF-003)
   - [ ] Dado que miro la cabecera, entonces veo el logotipo de texto «Axyntia» con su símbolo, los enlaces a Servicios, Cómo trabajamos, Por qué nosotros y Contacto, y el botón «Hablemos». (RF-004)
   - [ ] Dado que miro el hero, entonces veo el titular, el subtítulo y dos botones: «Solicita una propuesta», que lleva a `#contacto`, y «Escríbenos por WhatsApp». (RF-005)
-  - [ ] Dado que miro Servicios, entonces hay cuatro tarjetas con los títulos «CRM personalizados en 3D», «Desarrollo de software a medida», «Agentes de IA personalizados» y «Automatizaciones que reducen gastos en tu empresa», cada una con icono, descripción de 2 o 3 frases y 3 beneficios. (RF-006)
-  - [ ] Dado que miro «Cómo trabajamos», entonces veo cuatro pasos (Descubrimiento, Diseño y prototipo, Desarrollo por iteraciones, Lanzamiento y mejora continua) y una línea de progreso que avanza con el desplazamiento. (RF-007)
+  - [ ] Dado que miro Servicios, entonces hay cuatro filas con los títulos «CRM personalizados en 3D», «Desarrollo de software a medida», «Agentes de IA personalizados» y «Automatizaciones que reducen gastos en tu empresa», cada una con descripción de 2 o 3 frases y 3 beneficios. (RF-006)
+  - [ ] Dado que miro «Cómo trabajamos», entonces veo cuatro pasos (Descubrimiento, Diseño y prototipo, Desarrollo por iteraciones, Lanzamiento y mejora continua), numerados y en orden, sin animación. (RF-007)
   - [ ] Dado que miro «Por qué nosotros», entonces hay exactamente cuatro razones: a medida y sin plantillas, IA aplicada a resultados medibles, comunicación directa con quien desarrolla, y código y datos tuyos. (RF-008)
   - [ ] Dado que miro el pie, entonces veo el logotipo, los enlaces de sección, los enlaces a «Aviso legal» y «Política de privacidad» y el año actual. (RF-009)
-  - [ ] DONDE el visitante no pide movimiento reducido, EL SISTEMA DEBE mostrar en el hero una animación decorativa que reacciona levemente al ratón. (RF-010)
-  - [ ] DONDE el visitante no pide movimiento reducido, EL SISTEMA DEBE mostrar las secciones con una aparición suave al llegar a ellas. (RF-011)
+  - [ ] EL SISTEMA DEBE presentar el hero como un titular tipográfico sobre fondo liso, sin canvas, sin animación continua y sin reacción al ratón (DESIGN-SYSTEM §1.1). (RF-010)
+  - [ ] EL SISTEMA DEBE mostrar las secciones sin animación de aparición: el contenido está visible desde la carga, y el único movimiento es el de estado (menú móvil y pulsación de botón), con solo `transform` y `opacity`. (RF-011)
 
 ### HU-02 · Contactar por formulario · P1
 
@@ -169,80 +169,80 @@ Como persona que busca o recibe el enlace de Axyntia, quiero ver un título, una
 
 **Funcionales**
 
-| ID     | Requisito                                                                                                                                                     | Historia | Prioridad |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- |
-| RF-001 | EL SISTEMA DEBE ser una página única con siete bloques en orden: cabecera fija, hero, servicios, cómo trabajamos, por qué nosotros, contacto y pie            | HU-01    | P1        |
-| RF-002 | EL SISTEMA DEBE ofrecer las anclas `#servicios`, `#como-trabajamos`, `#por-que` y `#contacto`                                                                 | HU-01    | P1        |
-| RF-003 | EL SISTEMA DEBE tener un solo `h1` y encabezados sin saltos de nivel                                                                                          | HU-01    | P1        |
-| RF-004 | EL SISTEMA DEBE mostrar en la cabecera logotipo de texto con símbolo, cuatro enlaces y el botón «Hablemos»                                                    | HU-01    | P1        |
-| RF-005 | EL SISTEMA DEBE mostrar en el hero titular, subtítulo y los botones «Solicita una propuesta» (a `#contacto`) y «Escríbenos por WhatsApp»                      | HU-01    | P1        |
-| RF-006 | EL SISTEMA DEBE mostrar cuatro tarjetas de servicio con los títulos indicados, icono, descripción de 2 o 3 frases y 3 beneficios                              | HU-01    | P1        |
-| RF-007 | EL SISTEMA DEBE mostrar cuatro pasos de «Cómo trabajamos» con una línea de progreso ligada al desplazamiento                                                  | HU-01    | P1        |
-| RF-008 | EL SISTEMA DEBE mostrar solo las cuatro razones de «Por qué nosotros», sin cifras, clientes, logos ni testimonios                                             | HU-01    | P1        |
-| RF-009 | EL SISTEMA DEBE mostrar en el pie logotipo, enlaces de sección, enlaces legales y el año actual                                                               | HU-01    | P1        |
-| RF-010 | DONDE no se pide movimiento reducido, EL SISTEMA DEBE mostrar una animación decorativa en el hero que reacciona levemente al ratón y se pausa cuando no se ve | HU-01    | P2        |
-| RF-011 | DONDE no se pide movimiento reducido, EL SISTEMA DEBE mostrar las secciones con una aparición suave                                                           | HU-01    | P2        |
-| RF-012 | EL SISTEMA DEBE ofrecer los campos nombre, email, empresa (opcional), servicio de interés, mensaje y casilla de privacidad                                    | HU-02    | P1        |
-| RF-013 | SI nombre, email o mensaje están vacíos, ENTONCES EL SISTEMA DEBE impedir el envío y explicarlo junto al campo                                                | HU-02    | P1        |
-| RF-014 | SI el email no es válido, ENTONCES EL SISTEMA DEBE impedir el envío y explicarlo                                                                              | HU-02    | P1        |
-| RF-015 | SI el mensaje tiene menos de 10 o más de 2000 caracteres, ENTONCES EL SISTEMA DEBE impedir el envío                                                           | HU-02    | P1        |
-| RF-016 | SI la casilla de privacidad no está marcada, ENTONCES EL SISTEMA DEBE impedir el envío; la casilla enlaza a `/privacidad`                                     | HU-02    | P1        |
-| RF-017 | EL SISTEMA DEBE asociar cada error a su campo y anunciar un resumen                                                                                           | HU-02    | P1        |
-| RF-018 | SI el campo oculto contra spam está relleno, ENTONCES EL SISTEMA DEBE no enviar y no informar del motivo                                                      | HU-02    | P1        |
-| RF-019 | CUANDO hay destino del servicio de formularios y el formulario es válido, EL SISTEMA DEBE enviarlo a Formspree y mostrar «Enviando…»                          | HU-02    | P1        |
-| RF-020 | CUANDO el envío tiene éxito, EL SISTEMA DEBE mostrar «Gracias, te respondemos en 24 h laborables» y vaciar el formulario                                      | HU-02    | P1        |
-| RF-021 | SI el envío falla, ENTONCES EL SISTEMA DEBE mostrar el error con alternativas de WhatsApp y email y conservar los datos                                       | HU-02    | P1        |
-| RF-022 | CUANDO el destino está vacío y el formulario es válido, EL SISTEMA DEBE abrir un `mailto:` con asunto y cuerpo rellenados                                     | HU-02    | P1        |
-| RF-023 | EL SISTEMA DEBE codificar tildes, `&`, saltos de línea y emojis en el correo y en el mensaje de WhatsApp                                                      | HU-02    | P1        |
-| RF-024 | SI no está disponible la parte interactiva, ENTONCES EL SISTEMA DEBE [POR ACLARAR: comportamiento del formulario sin JavaScript]                              | HU-02    | P2        |
-| RF-025 | EL SISTEMA DEBE abrir WhatsApp con el número y el mensaje de la configuración, codificado                                                                     | HU-03    | P1        |
-| RF-026 | EL SISTEMA DEBE abrir WhatsApp con `target="_blank"` y `rel="noopener noreferrer"`                                                                            | HU-03    | P1        |
-| RF-027 | EL SISTEMA DEBE mostrar en «Contacto» el formulario, el botón de WhatsApp y el email de contacto                                                              | HU-03    | P1        |
-| RF-028 | EL SISTEMA DEBE tomar los datos de contacto de un único punto de configuración, documentado para quien lo cambie                                              | HU-03    | P1        |
-| RF-029 | EL SISTEMA DEBE ofrecer en móvil un menú desplegable operable con teclado, que anuncia su estado y se cierra con Escape                                       | HU-04    | P1        |
-| RF-030 | EL SISTEMA DEBE no tener desplazamiento horizontal ni solapes a 360, 768, 1024 y 1440 px                                                                      | HU-04    | P1        |
-| RF-031 | EL SISTEMA DEBE ofrecer un enlace «Saltar al contenido»                                                                                                       | HU-04    | P1        |
-| RF-032 | EL SISTEMA DEBE permitir usar todo con teclado, con foco visible y etiquetas en todos los campos                                                              | HU-04    | P1        |
-| RF-033 | EL SISTEMA DEBE ofrecer la página `/aviso-legal`                                                                                                              | HU-05    | P2        |
-| RF-034 | EL SISTEMA DEBE ofrecer la página `/privacidad`                                                                                                               | HU-05    | P2        |
-| RF-035 | EL SISTEMA DEBE usar marcadores de titular, NIF, domicilio y email en los textos legales                                                                      | HU-05    | P2        |
-| RF-036 | EL SISTEMA DEBE no usar cookies ni analítica y no mostrar banner de cookies                                                                                   | HU-05    | P2        |
-| RF-037 | EL SISTEMA DEBE [POR ACLARAR: texto de la política de privacidad sobre el envío de datos a Formspree]                                                         | HU-05    | P2        |
-| RF-038 | EL SISTEMA DEBE tener título y descripción propios                                                                                                            | HU-06    | P2        |
-| RF-039 | EL SISTEMA DEBE declarar una dirección canónica a partir de la dirección configurada                                                                          | HU-06    | P2        |
-| RF-040 | EL SISTEMA DEBE incluir datos Open Graph y Twitter con imagen de 1200×630 px                                                                                  | HU-06    | P2        |
-| RF-041 | EL SISTEMA DEBE incluir datos estructurados `Organization` o `ProfessionalService`                                                                            | HU-06    | P2        |
-| RF-042 | EL SISTEMA DEBE publicar `sitemap.xml`                                                                                                                        | HU-06    | P2        |
-| RF-043 | EL SISTEMA DEBE publicar `robots.txt`                                                                                                                         | HU-06    | P2        |
-| RF-044 | EL SISTEMA DEBE ofrecer un favicon SVG                                                                                                                        | HU-06    | P2        |
-| RF-045 | EL SISTEMA DEBE declarar el idioma del documento como español                                                                                                 | HU-04    | P1        |
-| RF-046 | EL SISTEMA DEBE dar texto alternativo a las imágenes informativas y `alt` vacío a las decorativas                                                             | HU-04    | P1        |
+| ID     | Requisito                                                                                                                                                   | Historia | Prioridad |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- |
+| RF-001 | EL SISTEMA DEBE ser una página única con siete bloques en orden: cabecera fija, hero, servicios, cómo trabajamos, por qué nosotros, contacto y pie          | HU-01    | P1        |
+| RF-002 | EL SISTEMA DEBE ofrecer las anclas `#servicios`, `#como-trabajamos`, `#por-que` y `#contacto`                                                               | HU-01    | P1        |
+| RF-003 | EL SISTEMA DEBE tener un solo `h1` y encabezados sin saltos de nivel                                                                                        | HU-01    | P1        |
+| RF-004 | EL SISTEMA DEBE mostrar en la cabecera logotipo de texto con símbolo, cuatro enlaces y el botón «Hablemos»                                                  | HU-01    | P1        |
+| RF-005 | EL SISTEMA DEBE mostrar en el hero titular, subtítulo y los botones «Solicita una propuesta» (a `#contacto`) y «Escríbenos por WhatsApp»                    | HU-01    | P1        |
+| RF-006 | EL SISTEMA DEBE mostrar cuatro filas de servicio con los títulos indicados, descripción de 2 o 3 frases y 3 beneficios                                      | HU-01    | P1        |
+| RF-007 | EL SISTEMA DEBE mostrar cuatro pasos de «Cómo trabajamos», numerados y en orden, sin animación                                                              | HU-01    | P1        |
+| RF-008 | EL SISTEMA DEBE mostrar solo las cuatro razones de «Por qué nosotros», sin cifras, clientes, logos ni testimonios                                           | HU-01    | P1        |
+| RF-009 | EL SISTEMA DEBE mostrar en el pie logotipo, enlaces de sección, enlaces legales y el año actual                                                             | HU-01    | P1        |
+| RF-010 | EL SISTEMA DEBE presentar el hero como un titular tipográfico sobre fondo liso, sin canvas, sin animación continua y sin reacción al ratón                  | HU-01    | P2        |
+| RF-011 | EL SISTEMA DEBE mostrar las secciones sin animación de aparición; el único movimiento es el de estado (menú móvil y pulsación), con `transform` y `opacity` | HU-01    | P2        |
+| RF-012 | EL SISTEMA DEBE ofrecer los campos nombre, email, empresa (opcional), servicio de interés, mensaje y casilla de privacidad                                  | HU-02    | P1        |
+| RF-013 | SI nombre, email o mensaje están vacíos, ENTONCES EL SISTEMA DEBE impedir el envío y explicarlo junto al campo                                              | HU-02    | P1        |
+| RF-014 | SI el email no es válido, ENTONCES EL SISTEMA DEBE impedir el envío y explicarlo                                                                            | HU-02    | P1        |
+| RF-015 | SI el mensaje tiene menos de 10 o más de 2000 caracteres, ENTONCES EL SISTEMA DEBE impedir el envío                                                         | HU-02    | P1        |
+| RF-016 | SI la casilla de privacidad no está marcada, ENTONCES EL SISTEMA DEBE impedir el envío; la casilla enlaza a `/privacidad`                                   | HU-02    | P1        |
+| RF-017 | EL SISTEMA DEBE asociar cada error a su campo y anunciar un resumen                                                                                         | HU-02    | P1        |
+| RF-018 | SI el campo oculto contra spam está relleno, ENTONCES EL SISTEMA DEBE no enviar y no informar del motivo                                                    | HU-02    | P1        |
+| RF-019 | CUANDO hay destino del servicio de formularios y el formulario es válido, EL SISTEMA DEBE enviarlo a Formspree y mostrar «Enviando…»                        | HU-02    | P1        |
+| RF-020 | CUANDO el envío tiene éxito, EL SISTEMA DEBE mostrar «Gracias, te respondemos en 24 h laborables» y vaciar el formulario                                    | HU-02    | P1        |
+| RF-021 | SI el envío falla, ENTONCES EL SISTEMA DEBE mostrar el error con alternativas de WhatsApp y email y conservar los datos                                     | HU-02    | P1        |
+| RF-022 | CUANDO el destino está vacío y el formulario es válido, EL SISTEMA DEBE abrir un `mailto:` con asunto y cuerpo rellenados                                   | HU-02    | P1        |
+| RF-023 | EL SISTEMA DEBE codificar tildes, `&`, saltos de línea y emojis en el correo y en el mensaje de WhatsApp                                                    | HU-02    | P1        |
+| RF-024 | SI no está disponible la parte interactiva, ENTONCES EL SISTEMA DEBE [POR ACLARAR: comportamiento del formulario sin JavaScript]                            | HU-02    | P2        |
+| RF-025 | EL SISTEMA DEBE abrir WhatsApp con el número y el mensaje de la configuración, codificado                                                                   | HU-03    | P1        |
+| RF-026 | EL SISTEMA DEBE abrir WhatsApp con `target="_blank"` y `rel="noopener noreferrer"`                                                                          | HU-03    | P1        |
+| RF-027 | EL SISTEMA DEBE mostrar en «Contacto» el formulario, el botón de WhatsApp y el email de contacto                                                            | HU-03    | P1        |
+| RF-028 | EL SISTEMA DEBE tomar los datos de contacto de un único punto de configuración, documentado para quien lo cambie                                            | HU-03    | P1        |
+| RF-029 | EL SISTEMA DEBE ofrecer en móvil un menú desplegable operable con teclado, que anuncia su estado y se cierra con Escape                                     | HU-04    | P1        |
+| RF-030 | EL SISTEMA DEBE no tener desplazamiento horizontal ni solapes a 360, 768, 1024 y 1440 px                                                                    | HU-04    | P1        |
+| RF-031 | EL SISTEMA DEBE ofrecer un enlace «Saltar al contenido»                                                                                                     | HU-04    | P1        |
+| RF-032 | EL SISTEMA DEBE permitir usar todo con teclado, con foco visible y etiquetas en todos los campos                                                            | HU-04    | P1        |
+| RF-033 | EL SISTEMA DEBE ofrecer la página `/aviso-legal`                                                                                                            | HU-05    | P2        |
+| RF-034 | EL SISTEMA DEBE ofrecer la página `/privacidad`                                                                                                             | HU-05    | P2        |
+| RF-035 | EL SISTEMA DEBE usar marcadores de titular, NIF, domicilio y email en los textos legales                                                                    | HU-05    | P2        |
+| RF-036 | EL SISTEMA DEBE no usar cookies ni analítica y no mostrar banner de cookies                                                                                 | HU-05    | P2        |
+| RF-037 | EL SISTEMA DEBE [POR ACLARAR: texto de la política de privacidad sobre el envío de datos a Formspree]                                                       | HU-05    | P2        |
+| RF-038 | EL SISTEMA DEBE tener título y descripción propios                                                                                                          | HU-06    | P2        |
+| RF-039 | EL SISTEMA DEBE declarar una dirección canónica a partir de la dirección configurada                                                                        | HU-06    | P2        |
+| RF-040 | EL SISTEMA DEBE incluir datos Open Graph y Twitter con imagen de 1200×630 px                                                                                | HU-06    | P2        |
+| RF-041 | EL SISTEMA DEBE incluir datos estructurados `Organization` o `ProfessionalService`                                                                          | HU-06    | P2        |
+| RF-042 | EL SISTEMA DEBE publicar `sitemap.xml`                                                                                                                      | HU-06    | P2        |
+| RF-043 | EL SISTEMA DEBE publicar `robots.txt`                                                                                                                       | HU-06    | P2        |
+| RF-044 | EL SISTEMA DEBE ofrecer un favicon SVG                                                                                                                      | HU-06    | P2        |
+| RF-045 | EL SISTEMA DEBE declarar el idioma del documento como español                                                                                               | HU-04    | P1        |
+| RF-046 | EL SISTEMA DEBE dar texto alternativo a las imágenes informativas y `alt` vacío a las decorativas                                                           | HU-04    | P1        |
 
 **No funcionales**
 
-| ID      | Requisito (con cifra)                                                                                                                          | Cómo se comprueba                                                      |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| RNF-001 | Accesibilidad WCAG 2.2 AA en toda la web                                                                                                       | Revisión manual y pruebas e2e                                          |
-| RNF-002 | Contraste ≥ 4,5:1 en texto normal y ≥ 3:1 en texto grande y elementos de interfaz                                                              | Tabla de contraste del sistema de diseño y revisión                    |
-| RNF-003 | Sin desplazamiento horizontal ni solapes a 360, 768, 1024 y 1440 px de ancho                                                                   | Prueba e2e a los cuatro anchos                                         |
-| RNF-004 | Lighthouse móvil, en la versión de producción: Rendimiento ≥ 90, Accesibilidad ≥ 95, Buenas prácticas ≥ 95 y SEO ≥ 95                          | Medido a mano por Eryon en la revisión del PR; no forma parte del gate |
-| RNF-005 | JavaScript de cliente ≤ 60 KB comprimido con gzip                                                                                              | Medida del resultado de la compilación                                 |
-| RNF-006 | 0 peticiones a terceros al cargar la página                                                                                                    | Prueba e2e que registra las peticiones                                 |
-| RNF-007 | Imágenes en AVIF o WebP con ancho y alto declarados                                                                                            | Revisión del HTML generado                                             |
-| RNF-008 | Con movimiento reducido: 0 animaciones del hero y de aparición, con todo el contenido visible                                                  | Prueba e2e emulando la preferencia                                     |
-| RNF-009 | 0 secretos y 0 datos reales (número, email, NIF, domicilio) en el repositorio; solo marcadores                                                 | Búsqueda en el repositorio y revisión de seguridad                     |
-| RNF-010 | Español de España con tuteo cercano y profesional, en el 100 % de los textos visibles                                                          | Revisión de contenido                                                  |
-| RNF-011 | Comprobaciones automáticas en verde: lint, formato, tipos, compilación y las tres suites de tests                                              | Gate de la factoría y CI                                               |
-| RNF-012 | Quien llega entiende qué hace Axyntia en ≤ 30 s, con titular, subtítulo y botón de contacto visibles sin desplazarse a 360×740 y a 1440×900 px | Revisión manual del PR y prueba e2e de visibilidad                     |
+| ID      | Requisito (con cifra)                                                                                                                          | Cómo se comprueba                                                                                |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| RNF-001 | Accesibilidad WCAG 2.2 AA en toda la web                                                                                                       | Revisión manual y pruebas e2e                                                                    |
+| RNF-002 | Contraste ≥ 4,5:1 en texto normal y ≥ 3:1 en texto grande y elementos de interfaz                                                              | Tabla de contraste del sistema de diseño y revisión                                              |
+| RNF-003 | Sin desplazamiento horizontal ni solapes a 360, 768, 1024 y 1440 px de ancho                                                                   | Prueba e2e a los cuatro anchos                                                                   |
+| RNF-004 | Lighthouse móvil, en la versión de producción: Rendimiento ≥ 90, Accesibilidad ≥ 95, Buenas prácticas ≥ 95 y SEO ≥ 95                          | Se mide en el gate de la factoría: `factory-perf` y Lighthouse con los umbrales de `global.yaml` |
+| RNF-005 | JavaScript de cliente ≤ 60 KB comprimido con gzip                                                                                              | Medida del resultado de la compilación                                                           |
+| RNF-006 | 0 peticiones a terceros al cargar la página                                                                                                    | Prueba e2e que registra las peticiones                                                           |
+| RNF-007 | Imágenes en AVIF o WebP con ancho y alto declarados                                                                                            | Revisión del HTML generado                                                                       |
+| RNF-008 | Con movimiento reducido: 0 animaciones (menú móvil y pulsación incluidos), con todo el contenido visible                                       | Prueba e2e emulando la preferencia                                                               |
+| RNF-009 | 0 secretos y 0 datos reales (número, email, NIF, domicilio) en el repositorio; solo marcadores                                                 | Búsqueda en el repositorio y revisión de seguridad                                               |
+| RNF-010 | Español de España con tuteo cercano y profesional, en el 100 % de los textos visibles                                                          | Revisión de contenido                                                                            |
+| RNF-011 | Comprobaciones automáticas en verde: lint, formato, tipos, compilación y las tres suites de tests                                              | Gate de la factoría y CI                                                                         |
+| RNF-012 | Quien llega entiende qué hace Axyntia en ≤ 30 s, con titular, subtítulo y botón de contacto visibles sin desplazarse a 360×740 y a 1440×900 px | Revisión manual del PR y prueba e2e de visibilidad                                               |
 
 ## 7. Métricas de éxito
 
-| ID     | Métrica                                                                           | Tipo       | Hoy      | Objetivo                                             | Plazo     | Cómo se mide                                                  |
-| ------ | --------------------------------------------------------------------------------- | ---------- | -------- | ---------------------------------------------------- | --------- | ------------------------------------------------------------- |
-| CE-001 | Contactos recibidos tras llegar a «Contacto» (formulario, WhatsApp o correo)      | primaria   | sin dato | [POR ACLARAR: objetivo numérico de contactos al mes] | sin plazo | Recuento manual de mensajes recibidos; no hay analítica       |
-| CE-002 | Clics necesarios para llegar a «Contacto» desde el hero                           | primaria   | sin dato | 1 clic                                               | en la v1  | Prueba e2e desde la página de inicio                          |
-| CE-003 | Tiempo para entender qué ofrece Axyntia                                           | primaria   | sin dato | ≤ 30 s                                               | en la v1  | Revisión manual del PR                                        |
-| CE-004 | Puntuaciones Lighthouse móvil (Rendimiento, Accesibilidad, Buenas prácticas, SEO) | secundaria | sin dato | ≥ 90 / 95 / 95 / 95                                  | en la v1  | Medido a mano por Eryon en la revisión del PR; fuera del gate |
+| ID     | Métrica                                                                           | Tipo       | Hoy      | Objetivo                                             | Plazo     | Cómo se mide                                                                                      |
+| ------ | --------------------------------------------------------------------------------- | ---------- | -------- | ---------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
+| CE-001 | Contactos recibidos tras llegar a «Contacto» (formulario, WhatsApp o correo)      | primaria   | sin dato | [POR ACLARAR: objetivo numérico de contactos al mes] | sin plazo | Recuento manual de mensajes recibidos; no hay analítica                                           |
+| CE-002 | Clics necesarios para llegar a «Contacto» desde el hero                           | primaria   | sin dato | 1 clic                                               | en la v1  | Prueba e2e desde la página de inicio                                                              |
+| CE-003 | Tiempo para entender qué ofrece Axyntia                                           | primaria   | sin dato | ≤ 30 s                                               | en la v1  | Revisión manual del PR                                                                            |
+| CE-004 | Puntuaciones Lighthouse móvil (Rendimiento, Accesibilidad, Buenas prácticas, SEO) | secundaria | sin dato | ≥ 90 / 95 / 95 / 95                                  | en la v1  | Se mide en el gate de la factoría (`factory-perf` y Lighthouse con los umbrales de `global.yaml`) |
 
 ## 8. Modelo de datos (conceptual)
 
@@ -267,8 +267,8 @@ La web no guarda ningún mensaje: solo lo transmite.
 | Error de red o respuesta de error del servicio      | Mensaje de error con alternativas de WhatsApp y email; se conserva lo escrito | RF-021         |
 | Tildes, `&`, saltos de línea y emojis en el mensaje | Quedan codificados en el correo y en el enlace de WhatsApp                    | RF-023         |
 | Número de WhatsApp sin dígitos                      | El enlace no se genera con un número vacío; la configuración debe corregirse  | RF-025         |
-| Movimiento reducido                                 | Sin animación del hero ni apariciones; todo el contenido visible              | RNF-008        |
-| Pestaña oculta o hero fuera de pantalla             | La animación del hero se detiene                                              | RF-010         |
+| Movimiento reducido                                 | Sin ninguna animación; todo el contenido visible                              | RNF-008        |
+| Pestaña oculta o hero fuera de pantalla             | No hay animación continua que detener: el hero es estático                    | RF-010         |
 | Ancho de 360 px con cabecera fija y menú abierto    | Sin desplazamiento horizontal; Escape cierra el menú                          | RF-029, RF-030 |
 | Formulario sin JavaScript                           | [POR ACLARAR: comportamiento del formulario sin JavaScript]                   | RF-024         |
 
@@ -278,10 +278,10 @@ La web no guarda ningún mensaje: solo lo transmite.
 - **Supuesto:** el servicio de formularios externo (Formspree) seguirá gratis o barato para el volumen de una landing → si es falso: se elige otro servicio o se pasa a un envío propio con un ADR nuevo.
 - **Dependencia:** David debe crear el formulario en Formspree; hasta entonces funciona el plan B por correo.
 - **Dependencia:** David rellena titular, NIF, domicilio y email legales, y sustituye el número, el email y la dirección del sitio de marcador.
-- **Restricción:** el envío de datos personales de los visitantes a Formspree requiere la aprobación de David y una política de privacidad que lo mencione.
+- **Restricción:** el envío de datos personales de los visitantes a Formspree fue decidido por David el 22 nov 2026 (Formspree con plan B `mailto:`; issue #3 y respuesta en la issue #10) y requiere una política de privacidad que lo mencione.
 - **Restricción:** sin secretos en el repositorio: el destino del formulario es público por diseño.
 - **Restricción:** la factoría no despliega ni gestiona el dominio.
-- **Restricción:** las referencias visuales (linear.app, stripe.com, raycast.com, resend.com, huly.io, lusion.co, awwwards.com) son inspiración; no se copian textos, imágenes ni código.
+- **Restricción:** las referencias visuales de DESIGN-SYSTEM §1.1 (ft.com, design-system.service.gov.uk, museumplantinmoretus.be, basecamp.com) son inspiración; no se copian textos, imágenes ni código.
 
 ## 11. Riesgos
 
@@ -290,7 +290,7 @@ La web no guarda ningún mensaje: solo lo transmite.
 | Los mensajes del formulario no llegan porque el destino está sin configurar | media        | alto    | Plan B por correo con destino vacío; la documentación explica cómo configurarlo (RF-022, RF-028) |
 | Spam en el formulario                                                       | media        | medio   | Campo oculto contra spam y validación (RF-018)                                                   |
 | Texto claro sobre colores de marca claros no alcanza el contraste mínimo    | alta         | medio   | El sistema de diseño fija texto oscuro sobre esos fondos y recalcula los ratios (RNF-002)        |
-| La animación del hero empeora la lectura en móviles de gama baja            | media        | medio   | Menos nodos en móvil, pausa fuera de pantalla y alternativa sin movimiento (RF-010, RNF-004)     |
+| El rendimiento en móviles de gama baja empeora la lectura                   | media        | medio   | Hero estático, solo `transform` y `opacity` y gate de rendimiento en cada PR (RF-010, RNF-004)   |
 | Publicar con marcadores en lugar de datos legales                           | media        | alto    | Los marcadores son visibles y David los rellena antes de publicar (RF-035)                       |
 | Se inventan cifras o clientes al pulir los textos                           | baja         | alto    | RF-008 y revisión de contenido                                                                   |
 
