@@ -173,7 +173,7 @@ sequenceDiagram
 | [ADR-002](decisions/ADR-002-configuracion-centralizada-site-ts.md)      | Configuración pública en un único archivo, sin secretos    | propuesta              |
 | [ADR-003](decisions/ADR-003-formulario-formspree-plan-b-mailto.md)      | Formulario con Formspree y plan B `mailto:`                | propuesta              |
 | [ADR-004](decisions/ADR-004-hero-canvas-2d-sin-librerias.md)            | Animación del hero en canvas 2D sin librerías              | sustituido por ADR-010 |
-| [ADR-005](decisions/ADR-005-fuentes-autoalojadas-woff2.md)              | Fuentes woff2 autoalojadas (no se aplica: manda ADR-009)   | propuesta              |
+| [ADR-005](decisions/ADR-005-fuentes-autoalojadas-woff2.md)              | Fuentes woff2 autoalojadas (no se aplica: manda ADR-009)   | sustituido por ADR-009 |
 | [ADR-006](decisions/ADR-006-lint-archivos-astro.md)                     | P1: lint de `.astro` como hoy; plugin tras subir Node      | propuesta              |
 | [ADR-007](decisions/ADR-007-telemetria-astro.md)                        | P2: telemetría desactivada por variable en el gate y la CI | propuesta              |
 | [ADR-008](decisions/ADR-008-sitemap-robots-endpoints-estaticos.md)      | P3: `sitemap.xml` y `robots.txt` como endpoints estáticos  | propuesta              |

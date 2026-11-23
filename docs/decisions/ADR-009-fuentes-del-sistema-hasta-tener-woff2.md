@@ -16,7 +16,7 @@ aprobado_por: 'david'
 aprobado_el: '2026-11-22'
 evidencia_aprobacion: 'Issue #3 de deividev/axyntia-web, sección «Decisión sobre las tipografías (22 nov, 15:10)»'
 origen: interno
-reemplaza: ''
+reemplaza: 'ADR-005'
 tags: []
 ---
 
@@ -36,7 +36,7 @@ ADR-005 proponía autoalojar archivos woff2 en `public/fonts`. La issue #3 recog
 
 ## Opciones consideradas
 
-- Pilas de fuentes del sistema (serif para titulares y sans para el texto).
+- Pilas de fuentes del sistema (sans para titulares y texto, serif solo para cifras).
 - Autoalojar archivos woff2 en `public/fonts` (ADR-005).
 - Cargar desde el CDN de Google Fonts.
 
@@ -44,9 +44,9 @@ ADR-005 proponía autoalojar archivos woff2 en `public/fonts`. La issue #3 recog
 
 Opción elegida: «pilas de fuentes del sistema», aceptada por David en la issue #3.
 
-- `--font-serif` (titulares) y `--font-sans` (texto) de `src/styles/global.css` usan solo pilas del sistema, tal como define DESIGN-SYSTEM §3 (`ui-serif, Georgia, 'Times New Roman', serif` y `system-ui, sans-serif`). No hay familia monoespaciada.
+- `--font-sans` (titulares y texto) y `--font-serif` (solo cifras de las líneas de albarán) de `src/styles/global.css` usan solo pilas del sistema, tal como define DESIGN-SYSTEM §3 (`system-ui, sans-serif` y `ui-serif, Georgia, 'Times New Roman', serif`). No hay familia monoespaciada.
 - Sin `@font-face`, sin precarga, sin archivos de fuentes y sin peticiones a terceros ni a Google.
-- La voz tipográfica sale del contraste entre serif y sans, de la escala y del interlineado, no de una fuente descargada.
+- La voz tipográfica sale del contraste entre la sans en negrita y las cifras en serif, de la escala y del interlineado, no de una fuente descargada.
 
 ### Consecuencias
 

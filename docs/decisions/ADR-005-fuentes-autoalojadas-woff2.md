@@ -3,7 +3,7 @@ tipo: adr
 titulo: 'ADR-005: Fuentes woff2 autoalojadas en public/fonts, sin peticiones a Google'
 proyecto: 'axyntia-web'
 cliente: 'interno'
-estado: propuesta
+estado: sustituido
 fecha: '2026-11-22'
 creado: '2026-11-22'
 actualizado: '2026-11-22'

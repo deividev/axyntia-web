@@ -40,7 +40,7 @@ El formulario debe llegar a Axyntia sin backend propio (RF-019 a RF-023, PRD sec
 
 ## Decisión
 
-Opción elegida: «Formspree con plan B `mailto:`», decisión de David recogida en la issue #1. Con `formEndpoint` configurado (`https://formspree.io/f/<id>`), el cliente envía un `POST` con `Accept: application/json` y muestra los estados «Enviando…», éxito y error. Con `formEndpoint` vacío (valor actual), abre un `mailto:` a `contactEmail` con asunto y cuerpo codificados con `encodeURIComponent`. `formEndpoint` solo es válido si empieza por `https://formspree.io/f/`; en cualquier otro caso se trata como vacío y se usa el plan B `mailto:`, para no enviar datos personales a un destino equivocado (lo cubre una prueba unitaria del trabajo de la landing, INV-10). El envío de datos personales a Formspree lo decidió David el 22 nov 2026 (Formspree con plan B `mailto:`), según el cuerpo de la issue #3 y su respuesta en la issue #10.
+Opción elegida: «Formspree con plan B `mailto:`», decisión de David del 22 nov 2026 (cuerpo de la issue #3 y respuesta en la issue #10). Con `formEndpoint` configurado (`https://formspree.io/f/<id>`), el cliente envía un `POST` con `Accept: application/json` y muestra los estados «Enviando…», éxito y error. Con `formEndpoint` vacío (valor actual), abre un `mailto:` a `contactEmail` con asunto y cuerpo codificados con `encodeURIComponent`. `formEndpoint` solo es válido si empieza por `https://formspree.io/f/`; en cualquier otro caso se trata como vacío y se usa el plan B `mailto:`, para no enviar datos personales a un destino equivocado (lo cubre una prueba unitaria del trabajo de la landing, INV-10).
 
 ### Consecuencias
 

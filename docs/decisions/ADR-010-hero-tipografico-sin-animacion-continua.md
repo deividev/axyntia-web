@@ -36,12 +36,12 @@ ADR-004 eligió un `<canvas>` 2D con una «constelación de datos» como fondo d
 ## Opciones consideradas
 
 - Mantener el canvas 2D de ADR-004, con menos nodos y más pausas.
-- Hero tipográfico: titular en serif del sistema a gran tamaño sobre papel liso, sin canvas, imagen decorativa ni animación.
+- Hero tipográfico: titular en sans del sistema en negrita y a gran tamaño sobre papel liso, sin canvas, imagen decorativa ni animación.
 - Imagen o vídeo decorativo de fondo.
 
 ## Decisión
 
-Opción elegida: «hero tipográfico». El hero es el titular (`sys.type.display`) con la palabra clave subrayada con una línea estática, el subtítulo y los dos botones, sobre el fondo `bg` liso. No hay canvas, ni animación continua, ni reacción al ratón. El movimiento de toda la web se limita a `transform` y `opacity`, de corta duración, y nunca es continuo (DESIGN-SYSTEM §1.1 y §3.3). GSAP y three.js siguen sin usarse.
+Opción elegida: «hero tipográfico». El hero es el titular (`sys.type.display`) entero en un solo color, sin énfasis en ninguna palabra, el subtítulo y los dos botones, sobre el fondo `bg` liso. No hay canvas, ni animación continua, ni reacción al ratón. El movimiento de toda la web se limita a `transform` y `opacity`, de corta duración, y nunca es continuo (DESIGN-SYSTEM §1.1 y §3.3). GSAP y three.js siguen sin usarse.
 
 ### Consecuencias
 
