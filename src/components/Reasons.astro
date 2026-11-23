@@ -19,14 +19,13 @@ const reasons = [
 ];
 ---
 
-<section id="por-que" data-reveal class="py-20">
-  <div class="mx-auto max-w-6xl px-6">
-    <p class="text-primary font-mono text-sm">// Por qué nosotros</p>
-    <h2 class="mt-3 text-3xl font-bold md:text-4xl">Razones para trabajar con Axyntia</h2>
-    <ul class="mt-12 grid gap-6 md:grid-cols-2">
+<section id="por-que" class="py-20">
+  <div class="max-w-content mx-auto px-6">
+    <h2 class="type-heading">Razones para trabajar con Axyntia</h2>
+    <ul class="mt-12 grid gap-x-12 md:grid-cols-2">
       {reasons.map((r) => (
-        <li class="card p-6" data-reason data-card>
-          <h3 class="text-xl font-bold">{r.title}</h3>
+        <li class="border-border border-t py-6" data-reason>
+          <h3 class="type-subheading">{r.title}</h3>
           <p class="text-text-muted mt-2">{r.text}</p>
         </li>
       ))}

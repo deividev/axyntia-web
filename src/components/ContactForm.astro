@@ -2,24 +2,24 @@
 import { site } from '../config/site';
 import { SERVICES } from '../lib/services';
 import { MESSAGE_MAX } from '../lib/contact';
+import WhatsAppLink from './WhatsAppLink.astro';
 
 // Margen sobre el máximo para que escribir de más muestre el error de longitud en vez de cortar.
 const MESSAGE_SLACK = 500;
-import WhatsAppLink from './WhatsAppLink.astro';
 ---
 
 <form
   id="contact-form"
   novalidate
   data-endpoint={site.formEndpoint}
-  class="mt-8 space-y-5"
+  class="mt-8 space-y-5 lg:mt-0"
   method="post"
   action="#contacto"
 >
   <div
     id="contact-summary"
     aria-live="assertive"
-    class="border-error rounded-md border p-4 empty:hidden"
+    class="border-error rounded-sm border p-4 empty:hidden"
   ></div>
 
   <div>
@@ -70,7 +70,12 @@ import WhatsAppLink from './WhatsAppLink.astro';
   </div>
   <div>
     <div class="flex items-start gap-3">
-      <input id="privacidad" name="privacidad" type="checkbox" class="mt-1 h-6 w-6 shrink-0" />
+      <input
+        id="privacidad"
+        name="privacidad"
+        type="checkbox"
+        class="accent-primary mt-1 h-6 w-6 shrink-0"
+      />
       <label for="privacidad">
         He leído y acepto la{' '}
         <a href="/privacidad" class="text-primary underline">
