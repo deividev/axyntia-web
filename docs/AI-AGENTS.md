@@ -77,7 +77,7 @@ Propuestas para la landing, aún sin crear: `src/components/`, `src/scripts/` y 
 ## Reglas propias del proyecto
 
 1. Sin secretos ni datos reales: solo los marcadores de `src/config/site.ts` y `https://formspree.io/f/<id>`.
-2. Sin analítica, cookies, GSAP ni three.js; el hero es canvas 2D sin librerías (ADR-004).
+2. Sin analítica, cookies, GSAP ni three.js; el hero es tipográfico, sin canvas ni animación continua (ADR-010).
 3. Textos legales: solo plantilla con marcadores; no inventes titular, NIF ni domicilio.
 4. Nada de cifras, clientes, logos ni testimonios inventados.
 
