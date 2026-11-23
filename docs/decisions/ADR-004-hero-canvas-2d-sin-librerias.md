@@ -3,10 +3,10 @@ tipo: adr
 titulo: 'ADR-004: Animación del hero en canvas 2D sin librerías'
 proyecto: 'axyntia-web'
 cliente: 'interno'
-estado: propuesta
+estado: sustituido
 fecha: '2026-11-22'
 creado: '2026-11-22'
-actualizado: '2026-11-22'
+actualizado: '2026-11-23'
 responsable: factory
 decisores: [david]
 consultados: []
@@ -21,6 +21,8 @@ tags: []
 ---
 
 # ADR-004: Animación del hero en canvas 2D sin librerías
+
+> **Sustituido por [ADR-010](ADR-010-hero-tipografico-sin-animacion-continua.md)** (2026-11-23). La constelación en canvas gastaba el 52,5 % del hilo principal con la CPU 4× más lenta, y la nueva dirección visual (DESIGN-SYSTEM §1.1) no la usa. Se conserva el texto como historial.
 
 ## Contexto y problema
 

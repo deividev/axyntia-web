@@ -22,15 +22,17 @@ tags: []
 
 # ADR-005: Fuentes woff2 autoalojadas en public/fonts, sin peticiones a Google
 
+> **Decisión vigente sobre fuentes:** [ADR-009](ADR-009-fuentes-del-sistema-hasta-tener-woff2.md) (solo fuentes del sistema, aceptado). Este ADR queda como alternativa por si David decide algún día añadir archivos woff2; mientras tanto no se aplica.
+
 ## Contexto y problema
 
-La dirección visual usa Space Grotesk, Inter y JetBrains Mono, que se publican en Google Fonts. Cargarlas desde Google envía la IP del visitante a un tercero, lo que choca con RNF-006 (0 peticiones a terceros) y con el RGPD. ¿De dónde se sirven?
+Una dirección visual con fuentes propias obliga a servirlas. Si se cargan desde Google Fonts, se envía la IP del visitante a un tercero, lo que choca con RNF-006 (0 peticiones a terceros) y con el RGPD. ¿De dónde se sirven?
 
 ## Factores de decisión
 
 - RNF-006: 0 peticiones a terceros al cargar.
 - Rendimiento (RNF-004) y legibilidad con `font-display: swap`.
-- Licencia de las fuentes: las tres se publican con licencia libre (SIL Open Font License); David debe confirmarlo al añadirlas.
+- Licencia de las fuentes: habría que comprobar que sea libre (por ejemplo SIL Open Font License) y que David lo confirme al añadirlas.
 
 ## Opciones consideradas
 
@@ -40,7 +42,7 @@ La dirección visual usa Space Grotesk, Inter y JetBrains Mono, que se publican 
 
 ## Decisión
 
-Opción elegida: «autoalojar woff2 en `public/fonts`»: Space Grotesk 500 y 700 (titulares), Inter 400, 500 y 600 (texto) y JetBrains Mono 400 (etiquetas). Se usa `font-display: swap` y solo se precarga la del titular (Space Grotesk 700).
+Opción valorada: «autoalojar woff2 en `public/fonts`», con `font-display: swap` y precarga solo de la fuente del titular. Con la dirección visual vigente (DESIGN-SYSTEM §1.1) no se aplica: manda ADR-009.
 
 ### Consecuencias
 
@@ -68,7 +70,7 @@ Prueba e2e de que no hay peticiones a dominios externos (INV-05) y búsqueda de 
 ### Fuentes del sistema
 
 - A favor: 0 bytes de fuentes.
-- En contra: no se logra la dirección visual pedida.
+- En contra: la letra varía según el equipo. Es la opción que adopta ADR-009.
 
 ## Más información
 
