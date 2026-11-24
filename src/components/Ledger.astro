@@ -1,0 +1,66 @@
+---
+// Albarán: tabla de líneas con columnas alineadas (DESIGN-SYSTEM §1.1). role=table en vez de <table>
+// para poder apilar cada línea en móvil sin perder la semántica.
+import { lineNumber } from '../lib/ledger';
+
+interface Column {
+  key: string;
+  header: string;
+  /** Rótulo visible en móvil y tableta, cuando no hay cabecera de columnas. */
+  label?: string;
+}
+interface Props {
+  label: string;
+  variant: 'services' | 'process';
+  /** Columnas de contenido: la primera es el concepto (rowheader); el nº se añade solo. */
+  columns: readonly Column[];
+  rows: readonly { n: number; cells: Record<string, string | readonly string[]> }[];
+}
+const { label, variant, columns, rows } = Astro.props;
+const [concept, ...rest] = columns;
+---
+
+<div role="table" aria-label={label} class={`ledger ledger--${variant}`}>
+  <div role="row" class="ledger-row ledger-head">
+    <span role="columnheader">Nº</span>
+    {columns.map((c) => (
+      <span role="columnheader">{c.header}</span>
+    ))}
+  </div>
+  {rows.map((r) => (
+    <div role="row" class="ledger-row" data-ledger-row>
+      <span role="cell" class="ledger-figure text-text" data-ledger-figure>
+        {lineNumber(r.n)}
+      </span>
+      {concept && (
+        <div role="rowheader">
+          <h3 class="text-subheading font-semibold">{r.cells[concept.key]}</h3>
+        </div>
+      )}
+      {rest.map((c) => {
+        const value = r.cells[c.key] ?? '';
+        const [first, ...items] = typeof value === 'string' ? [value] : value;
+        return (
+          <div role="cell" class="text-text-muted">
+            {c.label && (
+              <span
+                class="text-label text-text mb-1 block font-semibold lg:hidden"
+                data-ledger-label
+              >
+                {c.label}
+              </span>
+            )}
+            <p>{first}</p>
+            {items.length > 0 && (
+              <ul class="text-text mt-2 space-y-1">
+                {items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  ))}
+</div>

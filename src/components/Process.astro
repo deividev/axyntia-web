@@ -1,4 +1,6 @@
 ---
+import Ledger from './Ledger.astro';
+
 const steps = [
   {
     title: 'Descubrimiento',
@@ -17,25 +19,21 @@ const steps = [
     text: 'Ponemos todo en marcha, formamos a tu equipo y seguimos mejorando con el uso real.',
   },
 ];
+
+const columns = [
+  { key: 'step', header: 'Paso' },
+  { key: 'text', header: 'Qué hacemos' },
+] as const;
+const rows = steps.map((s, i) => ({ n: i + 1, cells: { step: s.title, text: s.text } }));
 ---
 
-<section id="como-trabajamos" data-reveal class="bg-surface py-20">
-  <div class="mx-auto max-w-6xl px-6">
-    <p class="text-primary font-mono text-sm">// Cómo trabajamos</p>
-    <h2 class="mt-3 text-3xl font-bold md:text-4xl">Un proceso claro, paso a paso</h2>
-    <div class="relative mt-12 pl-10">
-      <div class="bg-border absolute top-0 bottom-0 left-3 w-1" aria-hidden="true">
-        <div data-progress-line class="progress-line bg-brand h-full w-full"></div>
-      </div>
-      <ol class="space-y-10">
-        {steps.map((s, i) => (
-          <li class="relative">
-            <span class="text-primary font-mono text-sm">Paso {i + 1}</span>
-            <h3 class="mt-1 text-xl font-bold">{s.title}</h3>
-            <p class="text-text-muted mt-2 max-w-2xl">{s.text}</p>
-          </li>
-        ))}
-      </ol>
+<section id="como-trabajamos" class="border-border bg-surface border-y py-16 md:py-24">
+  <div class="max-w-content mx-auto px-4 md:px-6 lg:px-8">
+    <h2 class="text-heading-sm md:text-heading max-w-prose font-bold">
+      Un proceso claro, paso a paso
+    </h2>
+    <div class="mt-10 md:mt-12">
+      <Ledger label="Cómo trabajamos" variant="process" columns={columns} rows={rows} />
     </div>
   </div>
 </section>

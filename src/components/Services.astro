@@ -1,47 +1,34 @@
 ---
 import { SERVICES, type ServiceId } from '../lib/services';
+import Ledger from './Ledger.astro';
 
-const icons: Record<ServiceId, string> = {
-  'crm-3d': 'M12 3 4 7.5v9L12 21l8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9',
-  'software-a-medida': 'M8 7 3 12l5 5M16 7l5 5-5 5M14 4l-4 16',
-  'agentes-ia': 'M9 3h6v3H9zM5 8h14v11H5zM9 13h.01M15 13h.01M9 16.5h6',
-  automatizaciones: 'M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4',
+// «Para quién» no existía en los datos: frases cortas sacadas de la descripción de cada servicio
+// (cambio de contenido justificado en el informe del trabajo; pendiente de validar por David).
+const audience: Record<ServiceId, string> = {
+  'crm-3d': 'Equipos que llevan clientes, ventas y proyectos en hojas de cálculo',
+  'software-a-medida': 'Empresas cuya forma de trabajar no cabe en un programa genérico',
+  'agentes-ia': 'Negocios que atienden muchas consultas o preparan informes a mano',
+  automatizaciones: 'Equipos que pasan datos a mano de un programa a otro',
 };
+
+const columns = [
+  { key: 'concept', header: 'Concepto' },
+  { key: 'audience', header: 'Para quién', label: 'Para quién' },
+  { key: 'resolves', header: 'Qué resuelve', label: 'Qué resuelve' },
+] as const;
+const rows = SERVICES.map((s, i) => ({
+  n: i + 1,
+  cells: { concept: s.title, audience: audience[s.id], resolves: [s.description, ...s.benefits] },
+}));
 ---
 
-<section id="servicios" data-reveal class="py-20">
-  <div class="mx-auto max-w-6xl px-6">
-    <p class="text-primary font-mono text-sm">// Servicios</p>
-    <h2 class="mt-3 text-3xl font-bold md:text-4xl">Lo que hacemos por tu empresa</h2>
-    <div class="mt-12 grid gap-6 md:grid-cols-2">
-      {SERVICES.map((s) => (
-        <article class="card p-6" data-card>
-          <svg
-            viewBox="0 0 24 24"
-            class="text-primary h-10 w-10"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d={icons[s.id]} />
-          </svg>
-          <h3 class="mt-4 text-xl font-bold">{s.title}</h3>
-          <p class="text-text-muted mt-3">{s.description}</p>
-          <ul class="mt-4 space-y-2">
-            {s.benefits.map((b) => (
-              <li class="text-text flex gap-2">
-                <span class="text-success" aria-hidden="true">
-                  ✓
-                </span>
-                {b}
-              </li>
-            ))}
-          </ul>
-        </article>
-      ))}
+<section id="servicios" class="py-16 md:py-24">
+  <div class="max-w-content mx-auto px-4 md:px-6 lg:px-8">
+    <h2 class="text-heading-sm md:text-heading max-w-prose font-bold">
+      Lo que hacemos por tu empresa
+    </h2>
+    <div class="mt-10 md:mt-12">
+      <Ledger label="Servicios" variant="services" columns={columns} rows={rows} />
     </div>
   </div>
 </section>

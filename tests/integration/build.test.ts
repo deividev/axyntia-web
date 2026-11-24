@@ -5,6 +5,7 @@ import path from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { site } from '../../src/config/site';
+import { SERVICES } from '../../src/lib/services';
 import { absoluteUrl } from '../../src/lib/seo';
 
 // Integración real: compila el sitio con `astro build` (Astro y Tailwind de verdad) en una carpeta
@@ -157,10 +158,124 @@ describe('astro build de la página de inicio', () => {
   });
 
   it('el CSS generado por Tailwind incluye las clases y los colores de la página', () => {
-    expect(html).toContain('bg-axyntia-dark');
-    expect(css).toContain('.bg-axyntia-dark');
-    expect(css).toContain('.text-axyntia-light');
-    expect(css.toLowerCase()).toContain('#07080c');
-    expect(css.toLowerCase()).toContain('#e8ecf4');
+    expect(html).toMatch(/<body[^>]*class="[^"]*\bbg-bg\b[^"]*\btext-text\b/);
+    expect(css).toContain('.bg-bg');
+    expect(css).toContain('.text-text');
+  });
+});
+
+// Rediseño «libro de cuentas de la pyme» (issue #14, DESIGN-SYSTEM §1.1).
+const srcFiles = (dir: string): string[] =>
+  fs
+    .readdirSync(path.join(root, dir), { recursive: true, withFileTypes: true })
+    .filter((d) => d.isFile())
+    .map((d) => path.join(d.parentPath, d.name));
+const distFiles = (): string[] =>
+  fs
+    .readdirSync(outDir, { recursive: true, withFileTypes: true })
+    .filter((d) => d.isFile())
+    .map((d) => path.join(d.parentPath, d.name));
+
+describe('rediseño de la landing (issue #14)', () => {
+  it('CA-1: fondo papel #F4F6F8 y acento azul tinta #1F3C9C, sin degradados, backdrop-filter ni canvas', () => {
+    const lower = css.toLowerCase();
+    expect(lower).toMatch(/--color-bg:\s*#f4f6f8/);
+    expect(lower).toMatch(/--color-primary:\s*#1f3c9c/);
+    expect(lower).not.toMatch(/gradient\(/);
+    expect(lower).not.toContain('backdrop-filter');
+    expect(lower).not.toMatch(/box-shadow:\s*(?!none|var\(--tw)/);
+    for (const [route, doc] of Object.entries(pages())) {
+      expect(doc, route).not.toMatch(/<canvas\b/);
+      expect(doc, route).not.toContain('data-reveal');
+    }
+  });
+
+  it('CA-1: el código fuente no usa degradados, backdrop-filter, animaciones infinitas ni canvas (§7.12)', () => {
+    const offenders = srcFiles('src').filter((f) =>
+      /backdrop-filter|backdrop-blur|gradient|infinite|requestAnimationFrame|<canvas/.test(
+        fs.readFileSync(f, 'utf8'),
+      ),
+    );
+    expect(offenders).toEqual([]);
+  });
+
+  it('CA-2: los textos actuales de servicios, pasos, razones, hero y contacto siguen en la landing', () => {
+    const text = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    for (const s of SERVICES) {
+      for (const t of [s.title, s.description, ...s.benefits]) expect(text).toContain(t);
+    }
+    for (const t of [
+      'Software a medida e IA que trabajan para tu empresa',
+      'Diseñamos CRM visuales en 3D, agentes de IA y automatizaciones que ahorran horas y costes a pymes como la tuya.',
+      'Solicita una propuesta',
+      'Lo que hacemos por tu empresa',
+      'Un proceso claro, paso a paso',
+      'Descubrimiento',
+      'Hablamos contigo, entendemos tu negocio y detectamos dónde se pierde tiempo y dinero.',
+      'Diseño y prototipo',
+      'Te enseñamos cómo quedará antes de construirlo, para que decidas con algo real delante.',
+      'Desarrollo por iteraciones',
+      'Entregamos por partes y ajustamos con tu opinión en cada entrega.',
+      'Lanzamiento y mejora continua',
+      'Ponemos todo en marcha, formamos a tu equipo y seguimos mejorando con el uso real.',
+      'Razones para trabajar con Axyntia',
+      'A medida y sin plantillas',
+      'IA aplicada a resultados medibles',
+      'Comunicación directa con quien desarrolla',
+      'Código y datos tuyos',
+      'Hablemos de tu proyecto',
+      'Cuéntanos tu idea. Te respondemos en 24 h laborables con una propuesta sin compromiso.',
+    ]) {
+      expect(text).toContain(t);
+    }
+    // Sin etiquetas «// …» encima de los títulos (§1.1).
+    expect(text).not.toMatch(/\/\/ [A-ZÁÉÍÓÚ]/);
+  });
+
+  it('CA-8: sin @font-face, archivos de fuentes ni dominios de fuentes de terceros', () => {
+    expect(css).not.toContain('@font-face');
+    expect(distFiles().filter((f) => /\.(woff2?|ttf|otf|eot)$/i.test(f))).toEqual([]);
+    for (const doc of Object.values(pages())) {
+      expect(doc).not.toMatch(/fonts\.(googleapis|gstatic)\.com|rel="preload"[^>]*as="font"/);
+    }
+    expect(css).toMatch(/--font-sans:\s*system-ui,\s*sans-serif/);
+    expect(css).not.toMatch(/(--font-[a-z]+|font-family):[^;}]*\b(inter|space grotesk|jetbrains)/i);
+  });
+
+  it('CA-15: la constelación y los efectos de aparición no existen ni se referencian', () => {
+    for (const f of [
+      'src/scripts/hero-canvas.ts',
+      'src/scripts/effects.ts',
+      'src/lib/constellation.ts',
+      'tests/unit/constellation.test.ts',
+    ]) {
+      expect(fs.existsSync(path.join(root, f)), f).toBe(false);
+    }
+    const self = path.join(root, 'tests/integration/build.test.ts');
+    const refs = [...srcFiles('src'), ...srcFiles('tests')]
+      .filter((f) => f !== self)
+      .filter((f) => /hero-canvas|constellation|scripts\/effects/.test(fs.readFileSync(f, 'utf8')));
+    expect(refs).toEqual([]);
+  });
+
+  it('CA-16: los alias --color-axyntia-dark y --color-axyntia-light ya no existen', () => {
+    const self = path.join(root, 'tests/integration/build.test.ts');
+    const refs = [...srcFiles('src'), ...srcFiles('tests')]
+      .filter((f) => f !== self)
+      .filter((f) => /axyntia-(dark|light)/.test(fs.readFileSync(f, 'utf8')));
+    expect(refs).toEqual([]);
+    expect(css).not.toMatch(/axyntia-(dark|light)/);
+    for (const doc of Object.values(pages())) expect(doc).not.toMatch(/axyntia-(dark|light)/);
+  });
+
+  it('§7.1: ningún color, tamaño ni duración a mano fuera de global.css', () => {
+    const offenders = srcFiles('src')
+      .filter((f) => !f.endsWith('global.css'))
+      .filter((f) =>
+        /#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(|\[[0-9.]+(px|rem|ms|s)\]/.test(
+          fs.readFileSync(f, 'utf8'),
+        ),
+      );
+    expect(offenders).toEqual([]);
   });
 });
