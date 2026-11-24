@@ -22,9 +22,9 @@ test('a 360 px de ancho no hay scroll horizontal', async ({ page }) => {
   expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
 });
 
-test('Tailwind aplica el fondo oscuro y el color del texto', async ({ page }) => {
+test('Tailwind aplica el fondo papel y el color del texto', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(7, 8, 12)');
-  await expect(page.locator('body')).toHaveCSS('color', 'rgb(232, 236, 244)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(244, 246, 248)');
+  await expect(page.locator('body')).toHaveCSS('color', 'rgb(20, 24, 31)');
 });

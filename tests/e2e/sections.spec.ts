@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { site } from '../../src/config/site';
 import { buildWhatsAppUrl } from '../../src/lib/whatsapp';
 
-test('CA-10: Servicios tiene 4 tarjetas con título exacto, icono y 3 beneficios', async ({
+test('CA-10: Servicios tiene 4 líneas de albarán con título exacto, sin icono y con 3 beneficios', async ({
   page,
 }) => {
   await page.goto('/');
@@ -13,15 +13,15 @@ test('CA-10: Servicios tiene 4 tarjetas con título exacto, icono y 3 beneficios
     'Agentes de IA personalizados',
     'Automatizaciones que reducen gastos en tu empresa',
   ]);
-  const cards = page.locator('#servicios article');
-  await expect(cards).toHaveCount(4);
+  const rows = page.locator('#servicios [data-ledger-row]');
+  await expect(rows).toHaveCount(4);
   for (let i = 0; i < 4; i++) {
-    await expect(cards.nth(i).locator('svg')).toHaveCount(1);
-    await expect(cards.nth(i).locator('ul > li')).toHaveCount(3);
+    await expect(rows.nth(i).locator('svg, img')).toHaveCount(0);
+    await expect(rows.nth(i).locator('ul > li')).toHaveCount(3);
   }
 });
 
-test('CA-11: Cómo trabajamos tiene 4 pasos en orden y la línea avanza con el scroll', async ({
+test('CA-11: Cómo trabajamos tiene 4 pasos numerados en orden y sin línea de progreso', async ({
   page,
 }) => {
   await page.goto('/');
@@ -31,25 +31,13 @@ test('CA-11: Cómo trabajamos tiene 4 pasos en orden y la línea avanza con el s
     'Desarrollo por iteraciones',
     'Lanzamiento y mejora continua',
   ]);
-  const progress = () =>
-    page.evaluate(() => {
-      const line = document.querySelector<HTMLElement>('[data-progress-line]');
-      return Number(line?.style.getPropertyValue('--progress') || '0');
-    });
-  await page.evaluate(() => {
-    const s = document.getElementById('como-trabajamos')!;
-    window.scrollTo({ top: s.offsetTop - window.innerHeight + 1, behavior: 'instant' });
-  });
-  await expect.poll(progress).toBeLessThan(0.05);
-  const start = await progress();
-  await page.evaluate(() => {
-    const s = document.getElementById('como-trabajamos')!;
-    window.scrollTo({
-      top: s.offsetTop + s.offsetHeight - window.innerHeight,
-      behavior: 'instant',
-    });
-  });
-  await expect.poll(progress).toBeGreaterThan(start + 0.3);
+  await expect(page.locator('#como-trabajamos [data-ledger-figure]')).toHaveText([
+    '01',
+    '02',
+    '03',
+    '04',
+  ]);
+  await expect(page.locator('#como-trabajamos [data-progress-line]')).toHaveCount(0);
 });
 
 test('CA-12: Por qué nosotros tiene 4 razones y ningún dígito', async ({ page }) => {
