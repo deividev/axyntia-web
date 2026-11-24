@@ -152,9 +152,13 @@ section[id] {
   .ledger--process {
     --ledger-cols: 4ch minmax(0, 1fr) minmax(0, 2fr);
   }
+  /* El tamaño va en las celdas, no en la fila: así el 4ch de la rejilla se calcula con el mismo
+     tamaño de letra que las líneas y las columnas de la cabecera caen alineadas con ellas. */
   .ledger-head {
     display: grid;
     padding-block: 0.75rem;
+  }
+  .ledger-head > * {
     font-size: var(--text-label);
     line-height: var(--text-label--line-height);
     font-weight: 600;
