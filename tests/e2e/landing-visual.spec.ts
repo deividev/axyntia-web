@@ -245,30 +245,53 @@ test('CA-12: Tab recorre los controles con foco visible y en orden de lectura (1
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
+  // Orden de lectura: hacia abajo, o subir solo para empezar una columna a la derecha de la
+  // anterior (Contacto: datos a la izquierda y formulario a la derecha en escritorio).
   let last = -Infinity;
-  for (let i = 0; i < 40; i++) {
+  let lastRight = -Infinity;
+  let visited = 0;
+  let lastName = '';
+  for (let i = 0; i < 60; i++) {
     await page.keyboard.press('Tab');
+    // Al salir del último control el foco vuelve al documento: fin del recorrido.
+    if (await page.evaluate(() => document.activeElement === document.body)) break;
+    visited++;
     const info = await page.evaluate(() => {
       const el = document.activeElement as HTMLElement;
       const cs = getComputedStyle(el);
       const r = el.getBoundingClientRect();
       const header = document.querySelector('header')!.getBoundingClientRect();
+      // Tapado = bajo la franja de la cabecera y lo que se pinta en su borde superior es la
+      // cabecera (el enlace de salto va por encima de ella con z-index y no cuenta como tapado).
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + 1);
       return {
         name: el.textContent?.trim() || el.id,
         outline: parseFloat(cs.outlineWidth) >= 2 && cs.outlineStyle !== 'none',
         docY: r.top + window.scrollY,
+        left: r.left,
+        right: r.right,
         inHeader: !!el.closest('header'),
-        covered: !el.closest('header') && r.top < header.bottom - 1,
+        covered:
+          !el.closest('header') &&
+          r.top < header.bottom - 1 &&
+          (!hit || (!el.contains(hit) && !!hit.closest('header'))),
         skip: el.classList.contains('skip-link'),
       };
     });
     expect(info.outline, `foco visible en ${info.name}`).toBe(true);
     expect(info.covered, `foco tapado por la cabecera en ${info.name}`).toBe(false);
     if (!info.inHeader && !info.skip) {
-      expect(info.docY, `orden de foco en ${info.name}`).toBeGreaterThanOrEqual(last - 1);
+      const downward = info.docY >= last - 1;
+      const newColumn = info.left >= lastRight;
+      expect(downward || newColumn, `orden de foco en ${info.name}`).toBe(true);
       last = info.docY;
+      lastRight = info.right;
     }
+    lastName = info.name;
   }
+  // El recorrido llega al final de la página: el último control es el último enlace del pie.
+  expect(visited).toBeGreaterThan(20);
+  expect(lastName).toBe('Política de privacidad');
 });
 
 test('CA-13: objetivos táctiles ≥ 24×24 px y controles principales ≥ 44 px de alto', async ({
