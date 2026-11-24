@@ -13,15 +13,16 @@ const links = [
 ];
 ---
 
-<header class="border-border bg-bg/90 fixed inset-x-0 top-0 z-50 border-b backdrop-blur">
-  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
-    <a href="/" aria-label="Axyntia, inicio">
+<header class="border-border bg-surface fixed inset-x-0 top-0 z-50 border-b">
+  <div class="max-w-content relative mx-auto flex items-center gap-4 px-4 py-3 md:px-6 lg:px-8">
+    <a href="/" aria-label="Axyntia, inicio" class="order-1 inline-flex min-h-11 items-center">
       <Wordmark />
     </a>
-    {/* El botón va en el DOM justo antes del nav (orden de foco, WCAG 2.4.3); order-last lo deja a la derecha. */}
+    {/* El DOM no cambia (orden de foco: logotipo, botón, nav, «Hablemos»); solo las clases order-*
+       dejan «Hablemos» a la derecha junto al botón entre 640 y 1023 px (issue #8). */}
     <button
       type="button"
-      class="menu-btn border-border-control text-text order-last h-11 min-w-11 items-center justify-center rounded-md border px-3"
+      class="menu-btn border-border-control text-text order-4 ml-auto h-11 min-w-11 items-center justify-center rounded-md border px-3 sm:ml-0"
       aria-controls="site-nav"
       aria-expanded="false"
       aria-label="Menú"
@@ -35,15 +36,18 @@ const links = [
         ></path>
       </svg>
     </button>
-    <nav id="site-nav" aria-label="Principal" class="nav-links lg:ml-auto">
+    <nav id="site-nav" aria-label="Principal" class="nav-links order-2 lg:ml-auto">
       {links.map((l) => (
-        <a href={`${anchorBase}#${l.href}`} class="text-text-muted hover:text-text py-2">
+        <a
+          href={`${anchorBase}#${l.href}`}
+          class="text-text-muted hover:text-text inline-flex min-h-11 items-center"
+        >
           {l.label}
         </a>
       ))}
     </nav>
-    <div class="flex items-center gap-3">
-      <a href={`${anchorBase}#contacto`} class="btn btn-primary hidden sm:inline-flex">
+    <div class="order-3 ml-auto hidden items-center sm:flex lg:ml-0">
+      <a href={`${anchorBase}#contacto`} class="btn btn-primary">
         Hablemos
       </a>
     </div>
